@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { handleErrorResponse } = require('./utils/handleError');
+const { handleErrorResponse } = require('./utils/handleErrorResponse');
 require('dotenv').config();
 
 const auth = require('./routes/authRoute');

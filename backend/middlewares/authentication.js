@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const {handleErrorResponse} = require('../utils/handleError')
+const {handleErrorResponse} = require('../utils/handleErrorResponse')
 const authenticatedUser = async (req,res,next) => {
     try {
         const Authorization = req.headers['authorization']

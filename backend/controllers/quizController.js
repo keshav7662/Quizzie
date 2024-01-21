@@ -1,7 +1,7 @@
 const Quiz = require('../models/quizSchema')
 const Question = require('../models/questionSchema')
 
-const { handleErrorResponse } = require('../utils/handleError')
+const { handleErrorResponse } = require('../utils/handleErrorResponse')
 
 const checkQuestionLimit = (questions) => {
     return questions.length >= 5;
