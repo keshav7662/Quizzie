@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./form.module.css";
+import { useNavigate } from 'react-router-dom'
 import { userLogin, userRegistration } from "../../services/AuthService";
 
 const Form = () => {
@@ -10,7 +11,7 @@ const Form = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const navigate = useNavigate();
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -31,6 +32,7 @@ const Form = () => {
       const response = await userLogin(userData);
       if (response) {
         resetForm();
+        navigate('/dashboard')
       }
     }
   };
