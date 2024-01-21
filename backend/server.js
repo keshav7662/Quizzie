@@ -1,8 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const { handleErrorResponse } = require('./utils/handleError');
 require('dotenv').config();
-const {handleErrorResponse} = require('./utils/handleErrorResponse')
+
+const auth = require('./routes/authRoute');
+
 const app = express();
 
 app.use(express.json());
@@ -21,6 +24,8 @@ app.get('/health', (req, res) => {
         state: 'active',
     });
 });
+
+app.use('/api/auth', auth);
 
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Route not found' });
