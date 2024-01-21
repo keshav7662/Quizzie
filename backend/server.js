@@ -5,7 +5,7 @@ const { handleErrorResponse } = require('./utils/handleError');
 require('dotenv').config();
 
 const auth = require('./routes/authRoute');
-
+const quiz = require('./routes/quizRoute')
 const app = express();
 
 app.use(express.json());
@@ -26,6 +26,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use('/api/auth', auth);
+app.use('/api/quiz', quiz);
 
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Route not found' });
