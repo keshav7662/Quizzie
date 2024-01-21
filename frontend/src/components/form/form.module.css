@@ -1,0 +1,116 @@
+.formContainer {
+    height: 100vh;
+    width: 100vw;
+    padding: 5% 14%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.registrationArea {
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, .15);
+    height: 100%;
+    width: 100%;
+}
+
+.quizTitle {
+    color: #474444;
+    font-family: 'Jomhuria';
+    font-size: 5rem;
+    font-style: normal;
+    font-weight: 550;
+    line-height: normal;
+    margin-top: 1rem;
+    letter-spacing: 2px;
+    margin-top: 2%;
+}
+
+.toggleBtn {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 2%;
+}
+
+.toggleBtn>button {
+    color: #474444;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    padding: 0rem 2.5rem;
+    font-size: 1.2rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.toggleBtn>button:hover {
+    background-color: #a9bcff;
+    border-radius: 10px;
+    color: #fff;
+}
+
+.isSelected {
+    border-radius: 10px;
+    background: #FFF;
+    box-shadow: 0px 0px 50px 0px rgba(0, 25, 255, 0.24);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem auto;
+    align-items: center;
+}
+
+.formGroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2.5rem;
+    width: 70%;
+}
+
+.formGroup>label {
+    font-family: 'poppins';
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.formGroup>input {
+    padding: 0.5rem 1rem;
+    background: #f4f4f4;
+    border: none;
+    border-radius: 0.425rem 0.425rem 0 0;
+    width: 60%;
+}
+
+.submitBtn {
+    display: flex;
+    justify-content: center;
+}
+
+.submitBtn :hover {
+    background-color: #1239c6;
+    color: #fff;
+}
+
+.submitBtn>button {
+    font-family: Poppins;
+    font-weight: 600;
+    background: #a9bcff;
+    border: none;
+    border-radius: 0.5rem;
+    color: #474444;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.3rem 7rem;
+}
+
+::placeholder {
+    color: red;
+}
