@@ -25,12 +25,15 @@ const Form = () => {
     if (showSignUpForm) {
       const response = await userRegistration(userData);
       if (response) {
+        localStorage.setItem('token', response.token)
         resetForm();
         setShowSignUpForm(false);
+        navigate('/dashboard')
       }
     } else {
       const response = await userLogin(userData);
       if (response) {
+        localStorage.setItem('token', response.token)
         resetForm();
         navigate('/dashboard')
       }
