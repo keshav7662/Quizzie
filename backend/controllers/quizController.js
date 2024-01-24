@@ -1,6 +1,5 @@
 const Quiz = require('../models/quizSchema')
 const Question = require('../models/questionSchema')
-
 const { handleErrorResponse } = require('../utils/handleErrorResponse')
 
 const checkQuestionLimit = (questions) => {
@@ -83,4 +82,27 @@ const getAllQuizzes = async (req, res) => {
     }
 }
 
-module.exports = { createQuestion, createQuiz };
+const deleteQuiz = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const quiz = await Quiz.findById(id);
+
+        if (!quiz) {
+            return res.status(404).json({
+                message: 'Quiz not found!',
+            });
+        }
+
+        const response = await Quiz.findByIdAndDelete(id);
+
+        if (response) {
+            return res.status(200).json({
+                message: 'Quiz Deleted successfully!',
+            });
+        }
+    } catch (error) {
+        return handleErrorResponse(res, 500, 'Internal server error!');
+    }
+};
+
+module.exports = { createQuestion, createQuiz, getAllQuizzes, deleteQuiz };
