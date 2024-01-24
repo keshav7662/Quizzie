@@ -69,4 +69,18 @@ const createQuestion = async (req, res) => {
     }
 };
 
+const getAllQuizzes = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        const allQuizzes = await Quiz.find({ userId }).populate('questions');
+        if (allQuizzes) {
+            return res.status(200).json({
+                allQuizzes
+            })
+        }
+    } catch (error) {
+        handleErrorResponse(res, 500, 'Internal Server error');
+    }
+}
+
 module.exports = { createQuestion, createQuiz };
