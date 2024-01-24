@@ -2,15 +2,16 @@ import React from 'react';
 import styles from './sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({selectedButton,handleButtonClick}) => {
-  
-  const buttonNames = ['Dashboard', 'Analytics', 'CreateQuiz'];
-  
+const Sidebar = ({ selectedButton, handleSidebarButtonClick, setShowCreateQuiz }) => {
+
+  const buttonNames = ['Dashboard', 'Analytics'];
+
   const navigate = useNavigate();
 
   const handleLogout = () => {
     navigate('/register');
   };
+
   const getButtonClass = (buttonName) => (
     selectedButton === buttonName ? styles.selectedButton : ''
   );
@@ -23,11 +24,12 @@ const Sidebar = ({selectedButton,handleButtonClick}) => {
           <button
             key={buttonName}
             className={getButtonClass(buttonName)}
-            onClick={() => handleButtonClick(buttonName)}
+            onClick={() => handleSidebarButtonClick(buttonName)}
           >
             {buttonName}
           </button>
         ))}
+        <button className={getButtonClass('Create Quiz')} onClick={() => { setShowCreateQuiz(true) }}>Create Quiz</button>
       </div>
       <button className={styles.logoutBtn} onClick={handleLogout}>
         LOGOUT
