@@ -9,12 +9,13 @@ const checkQuestionLimit = (questions) => {
 const createQuiz = async (req, res) => {
     try {
         const { quizName, quizType } = req.body;
+        const userId = req.user.userId
 
         if (!quizName || !quizType) {
             return handleErrorResponse(res, 400, 'All fields mandatory!');
         }
 
-        await Quiz.create({ quizName, quizType });
+        await Quiz.create({ quizName, quizType, userId });
         return res.json({
             message: 'Quiz created, add questions!',
         });
