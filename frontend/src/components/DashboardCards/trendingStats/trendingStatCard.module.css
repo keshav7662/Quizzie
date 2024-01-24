@@ -1,0 +1,29 @@
+.trendingStatsContainer {
+    width: 15rem;
+    padding: 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.quizCount {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    color: #474444;
+    font-family: 'poppins';
+    font-weight: 600;
+}
+
+.quizCount>p {
+    color: #FF5D01;
+}
+
+.createdTime {
+    color: #60B84B;
+    font-family: 'poppins';
+    font-weight: 500;
+}
