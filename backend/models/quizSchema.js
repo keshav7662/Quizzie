@@ -17,9 +17,14 @@ const quizSchema = mongoose.Schema({
     impressions: {
         type: Number,
         default: 0
-    }, 
-    questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }] //this will contain id of all the qun
-
+    },
+    questions: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'QuizieUsers'
+    }
+}, {
+    timestamps: true
 })
 
 module.exports = mongoose.model('Quiz', quizSchema);
