@@ -1,25 +1,45 @@
-import React, { useState } from 'react';
-import Sidebar from '../../components/DashboardSidebar/Sidebar';
-import styles from './dashboardPage.module.css';
-import QuizStatCard from '../../components/DashboardCards/quizStats/QuizStatCard';
-import TrendingStatCard from '../../components/DashboardCards/trendingStats/TrendingStatCard';
-
+import React, { useState } from "react";
+import Sidebar from "../../components/DashboardSidebar/Sidebar";
+import styles from "./dashboardPage.module.css";
+import QuizStatCard from "../../components/DashboardCards/quizStats/QuizStatCard";
+import TrendingStatCard from "../../components/DashboardCards/trendingStats/TrendingStatCard";
+import AnalysisPage from "../Analysis/AnalysisPage";
+import SweetAlert from "../../components/SweetAlert/SweetAlert";
 const DashboardPage = () => {
+  const [selectedButton, setSelectedButton] = useState("Dashboard");
+  const [showSweetAlert, setShowSweetAlert] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
-  const [selectedButton, setSelectedButton] = useState('Dashboard');
-
-  const handleSidebarButtonClick = (buttonName) => {
+  const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
   };
 
+  const cancelDelete = () => {
+    setShowSweetAlert(false);
+  };
+  const hideSweetAlert = () => {
+    setShowSweetAlert(false);
+  };
   return (
     <div className={styles.dashboard}>
+      {showSweetAlert ? (
+        <div className={styles.sweetContainer} onClick={hideSweetAlert}>
+          <SweetAlert
+            setConfirmDelete={setConfirmDelete}
+            cancelDelete={cancelDelete}
+            setShowSweetAlert = {setShowSweetAlert}
+          />
+        </div>
+      ) : null}
       <div className={styles.sidebarContainer}>
-        <Sidebar selectedButton={selectedButton} handleSidebarButtonClick={handleSidebarButtonClick} />
+        <Sidebar
+          selectedButton={selectedButton}
+          handleButtonClick={handleButtonClick}
+        />
       </div>
       <div className={styles.quizStatsContainer}>
         <div className={styles.quizStatsSubContainer}>
-          {selectedButton === 'Dashboard' ? (
+          {selectedButton === "Dashboard" ? (
             <div className={styles.dashboardStats}>
               <QuizStatCard />
               <div className={styles.displayCards}>
@@ -29,6 +49,12 @@ const DashboardPage = () => {
                 </div>
               </div>
             </div>
+          ) : selectedButton === "Analytics" ? (
+            <AnalysisPage
+              setShowSweetAlert={setShowSweetAlert}
+              confirmDelete={confirmDelete}
+              setConfirmDelete={setConfirmDelete}
+            />
           ) : null}
         </div>
       </div>
@@ -36,4 +62,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default DashboardPage;

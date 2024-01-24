@@ -1,0 +1,41 @@
+.analysisPage {
+    font-family: "poppins";
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.heading {
+    color: #5076ff;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 5%;
+}
+
+th,
+td {
+    padding: 0.3rem 0.5rem;
+    text-align: center;
+}
+
+table th:first-child {
+    border-radius: 10px 0 0 10px;
+}
+
+table th:last-child {
+    border-radius: 0 10px 10px 0;
+}
+
+.tableHead>tr {
+    background-color: #5076ff;
+    color: white;
+}
+
+.evenRow {
+    background-color: #b3c4ff;
+    border-radius: 10px;
+}
