@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = () => {
-  const [selectedButton, setSelectedButton] = useState('Dashboard');
+const Sidebar = ({selectedButton,handleButtonClick}) => {
+  
   const buttonNames = ['Dashboard', 'Analytics', 'CreateQuiz'];
-
+  
   const navigate = useNavigate();
 
   const handleLogout = () => {
     navigate('/register');
   };
-
-  const handleButtonClick = (buttonName) => {
-    setSelectedButton(buttonName);
-  };
-
   const getButtonClass = (buttonName) => (
     selectedButton === buttonName ? styles.selectedButton : ''
   );
 
   return (
-    <div className={styles.sidebar}>
+    <div className={styles.sidebar} >
       <h1 className={styles.sidebarTitle}>QUEEZIE</h1>
       <div className={styles.navigateBtn}>
         {buttonNames.map((buttonName) => (
