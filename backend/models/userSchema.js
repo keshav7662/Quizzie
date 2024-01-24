@@ -9,10 +9,6 @@ const userSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
     fullName: {
         type: String,
         required: true
@@ -26,5 +22,7 @@ const userSchema = mongoose.Schema({
         type: String,
         reuired: true
     }
+}, {
+    timestamps: true
 })
 module.exports = mongoose.model('QuizieUsers', userSchema)

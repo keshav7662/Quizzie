@@ -1,0 +1,61 @@
+.dashboard {
+    position: relative;
+    display: flex;
+}
+.sidebarContainer{
+    width: 20%;
+}
+.quizStatsContainer{
+    width: 70%;
+    margin: auto;
+}
+.quizStatsSubContainer {
+    margin: 3rem auto;
+    width: 100%
+}
+
+.displayCards {
+    margin-top: 5%;
+}
+
+.displayCards>h1 {
+    font-family: 'poppins';
+    font-weight: 600;
+    color: #474444;
+
+}
+
+.trendingCards {
+    margin-top: 2%;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+
+.sweetContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+.createQuizContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}

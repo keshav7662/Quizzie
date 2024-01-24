@@ -1,0 +1,43 @@
+.quizStatsContainer {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.quizCard {
+    width: 15rem;
+    background: #fff;
+    font-family: 'poppins';
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    padding: 0.5rem 0rem;
+}
+
+.cardContent {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+}
+
+.cardContent>p {
+    font-size: 3rem;
+}
+
+.quizCard span {
+    font-size: 1.5rem;
+}
+
+.orangeText {
+    color: #FF5D01;
+}
+
+.greenText {
+    color: #60B84B;
+}
+
+.blueText {
+    color: #5076FF;
+}
