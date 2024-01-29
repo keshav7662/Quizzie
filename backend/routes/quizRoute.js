@@ -5,7 +5,7 @@ const authenticatedUser = require('../middlewares/authentication')
 const router = express.Router();
 
 router.post('/create-quiz', authenticatedUser, createQuiz)
-router.post('/add-question/:id', authenticatedUser, createQuestion)
+router.post('/add-question/:id?', authenticatedUser, createQuestion)
 router.get('/all-quiz', authenticatedUser, getAllQuizzes)
 router.delete('/delete-quiz/:id', authenticatedUser, deleteQuiz)
 
