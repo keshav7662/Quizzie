@@ -6,14 +6,19 @@ import TrendingStatCard from '../../components/DashboardCards/trendingStats/Tren
 import AnalysisPage from '../Analysis/AnalysisPage';
 import SweetAlert from '../../components/SweetAlert/SweetAlert';
 import CreateQuizCard from '../../components/CreateQuizCard/CreateQuizCard';
-import AddQuiz from '../../components/AddQuiz';
+import AddQuestionPage from '../AddQuestion/AddQuestionPage';
+import QuizPublishPage from '../QuizPublish/QuizPublishPage';
 
 const DashboardPage = () => {
   const [selectedButton, setSelectedButton] = useState('Dashboard');
   const [showSweetAlert, setShowSweetAlert] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [showCreateQuiz, setShowCreateQuiz] = useState(false);
-  const [showAddQuestion, setShowAddQuestion] = useState(false)
+  const [showAddQuestion, setShowAddQuestion] = useState(false);
+  const [showPublishPage, setShowPublishPage] = useState(false);
+  const [receivedQuizId, setReceivedQuizId] = useState();
+  const [receivedQuizType,setReceivedQuizType] = useState();
+
   const handleSidebarButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
   };
@@ -29,6 +34,7 @@ const DashboardPage = () => {
   const hideCreateQuizCard = () => {
     setShowCreateQuiz(false);
     setShowAddQuestion(false)
+    setShowPublishPage(false)
   };
 
   return (
@@ -41,11 +47,30 @@ const DashboardPage = () => {
 
       {showCreateQuiz ? (
         <div className={styles.createQuizContainer} onClick={hideCreateQuizCard}>
-          <CreateQuizCard hideCreateQuizCard={hideCreateQuizCard} setShowAddQuestion={setShowAddQuestion} />
+          <CreateQuizCard
+            hideCreateQuizCard={hideCreateQuizCard}
+            setShowCreateQuiz={setShowCreateQuiz}
+            setShowAddQuestion={setShowAddQuestion}
+            setRecievedQuizId={setReceivedQuizId}
+            setReceivedQuizType={setReceivedQuizType}
+          />
         </div>
-      ) : showAddQuestion ? (<div className={styles.createQuizContainer} onClick={hideCreateQuizCard}>
-        <AddQuiz hideCreateQuizCard={hideCreateQuizCard} setShowAddQuestion={setShowAddQuestion} />
-      </div>) : null
+      ) : showAddQuestion ?
+        (<div className={styles.createQuizContainer} onClick={hideCreateQuizCard}>
+          <AddQuestionPage
+            hideCreateQuizCard={hideCreateQuizCard}
+            setShowAddQuestion={setShowAddQuestion}
+            setShowPublishPage={setShowPublishPage}
+            receivedQuizId={receivedQuizId}
+            receivedQuizType={receivedQuizType}
+          />
+        </div>) : showPublishPage ? (
+          <div className={styles.createQuizContainer} onClick={hideCreateQuizCard}>
+            <QuizPublishPage 
+              hideCreateQuizCard={hideCreateQuizCard}
+            />
+          </div>
+        ) : null
       }
       <div className={styles.sidebarContainer}>
         <Sidebar selectedButton={selectedButton} handleSidebarButtonClick={handleSidebarButtonClick} setShowCreateQuiz={setShowCreateQuiz} />
