@@ -9,7 +9,6 @@ const QuizStatCard = () => {
   useEffect(() => {
     const getQuizData = async () => {
       const response = await getAllQuizzes();
-      console.log(response)
       setData(response.allQuizzes);
 
       let total = 0;

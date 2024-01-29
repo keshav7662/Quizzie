@@ -11,14 +11,19 @@ const questionSchema = mongoose.Schema({
         required: true
     },
     option: {
-        type: [String],
+        type: [{}],
         required: true
     },
     answer: {
         type: String
+    },
+    timer: {
+        type: String,
+        enum: ['OFF', '5 Sec', '10 Sec'],
+        required: true
     }
-},{
-    timestamps:true
+}, {
+    timestamps: true
 })
 
 module.exports = mongoose.model('Question', questionSchema)

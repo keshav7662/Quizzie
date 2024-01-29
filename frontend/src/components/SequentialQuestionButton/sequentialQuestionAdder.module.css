@@ -1,0 +1,25 @@
+.roundButton {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    fill: #FFF;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.roundButton>img {
+    cursor: pointer;
+    position: absolute;
+    bottom: 70%;
+    left: 70%;
+    width: 25px;
+    height: 25px;
+}
+.roundButton> img:hover {
+    transition: transform 0.3s ease-in-out;
+    transform: scale(1.2);
+}

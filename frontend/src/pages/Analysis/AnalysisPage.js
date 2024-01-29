@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AnalysisRow from "../../components/AnalysisRow/AnalysisRow";
 import styles from "./analysisPage.module.css";
 import { getAllQuizzes, deleteQuiz } from "../../services/QuizService";
-
+import { formatTime } from '../../utils/TimeFormatter'
 const AnalysisPage = ({
   setShowSweetAlert,
   confirmDelete,
@@ -35,14 +35,6 @@ const AnalysisPage = ({
     handleDeleteQuiz();
   }, [confirmDelete, selectedId, setConfirmDelete]);
 
-  const formatDate = (createdAt) => {
-    const date = new Date(createdAt);
-    const day = date.getDate();
-    const month = date.toLocaleString("en-US", { month: "short" });
-    const year = date.getFullYear();
-    return `${day} ${month}, ${year}`;
-  };
-
   useEffect(() => {
     getQuizAnalysis();
   }, []);
@@ -67,7 +59,7 @@ const AnalysisPage = ({
         <tbody>
           {quizData.map((item, index) => (
             <AnalysisRow
-              item={{ ...item, createdAt: formatDate(item.createdAt) }}
+              item={{ ...item, createdAt: formatTime(item.createdAt) }}
               key={index}
               index={index + 1}
               className={index % 2 !== 0 ? styles.evenRow : ""}
