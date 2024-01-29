@@ -17,8 +17,12 @@
     font-family: 'poppins';
     font-weight: 600;
 }
-
-.quizCount>p {
+.impressionCount {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+.impressionCount>p {
     color: #FF5D01;
 }
 

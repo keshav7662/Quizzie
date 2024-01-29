@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './createQuizCard.module.css';
 import { createQuiz } from '../../services/QuizService';
 
-const CreateQuizCard = ({ hideCreateQuizCard, setShowAddQuestion }) => {
+const CreateQuizCard = ({ hideCreateQuizCard, setShowCreateQuiz, setShowAddQuestion, setRecievedQuizId, setReceivedQuizType }) => {
     const [newQuiz, setNewQuiz] = useState({
         quizName: '',
         quizType: '',
@@ -29,18 +29,17 @@ const CreateQuizCard = ({ hideCreateQuizCard, setShowAddQuestion }) => {
         try {
             const response = await createQuiz(newQuiz);
             if (response) {
+                setRecievedQuizId(response.quizId)
+                setReceivedQuizType(response.quizType)
                 setShowAddQuestion(true);
-                hideCreateQuizCard();
+                setShowCreateQuiz(false);
             }
         } catch (error) {
             console.log(error)
         }
     }
-    const handleDefaultClick = (e) => {
-        e.stopPropagation();
-    }
     return (
-        <div className={styles.createQuizBox} onClick={handleDefaultClick}>
+        <div className={styles.createQuizBox} onClick={(e) => e.stopPropagation()}>
             <input
                 type="text"
                 placeholder="Quiz Name"
