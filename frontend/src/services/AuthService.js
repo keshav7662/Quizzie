@@ -5,7 +5,6 @@ const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
 export const userRegistration = async (userData) => {
     try {
         const response = await axios.post(`${backendBaseURL}/auth/register`, userData);
-        console.log(response)
         toast.success(response.data.message, {
             position: "top-center",
             autoClose: 2000,
