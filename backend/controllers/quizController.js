@@ -1,10 +1,7 @@
 const Quiz = require('../models/quizSchema')
 const Question = require('../models/questionSchema')
 const { handleErrorResponse } = require('../utils/handleErrorResponse')
-
-const checkQuestionLimit = (questions) => {
-    return questions.length >= 5;
-};
+const { validateQuestions } = require('../utils/validateQuestion')
 
 const createQuiz = async (req, res) => {
     try {
@@ -15,9 +12,11 @@ const createQuiz = async (req, res) => {
             return handleErrorResponse(res, 400, 'All fields mandatory!');
         }
 
-        await Quiz.create({ quizName, quizType, userId });
+        const newQuiz = await Quiz.create({ quizName, quizType, userId });
         return res.json({
-            message: 'Quiz created, add questions!',
+            message: 'Create your quiz now!',
+            quizId: newQuiz._id,
+            quizType:quizType
         });
     } catch (error) {
         console.error(error);
@@ -27,45 +26,29 @@ const createQuiz = async (req, res) => {
 
 const createQuestion = async (req, res) => {
     try {
-        const { title, option, optionType, answer } = req.body;
+        const questionsData = req.body.questions;
         const { id } = req.params;
 
         const quiz = await Quiz.findById(id);
         if (!quiz) {
-            return handleErrorResponse(res, 400, 'first create a quiz then add qun!')
+            return handleErrorResponse(res, 400, 'First create a quiz, then add a question!');
         }
+        const errors = validateQuestions(questionsData,quiz);
+        if (Object.keys(errors).length === 0) {
+            const createdQuestions = await Question.create(questionsData);
+            quiz.questions.push(...createdQuestions);
+            quiz.questionCount += createdQuestions.length;
+            await quiz.save();
 
-        if (!title || !option) {
-            return handleErrorResponse(res, 400, 'Title and option are mandatory!');
-        }
-        if (option.length < 2 || option.length > 4) {
-            return handleErrorResponse(res, 400, 'Options should be between 2 and 4!')
-        }
-        let newQuestion;
-        if (quiz.quizType == 'Q&A') {
-            if (!answer) {
-                return handleErrorResponse(res, 400, 'Answer is mandatory for Q&A type quiz!');
-            }
-            newQuestion = await Question.create({ title, option, answer, optionType });
+            return res.status(201).json({ message: 'Quiz Created Successfully!', newQuestion: createdQuestions });
         } else {
-            newQuestion = await Question.create({ title, option, optionType });
+            return res.status(400).json({
+                error: errors,
+            });
         }
-
-        if (checkQuestionLimit(quiz.questions)) {
-            return handleErrorResponse(res, 401, 'Max question limit reached');
-        }
-
-        quiz.questions.push(newQuestion);
-        quiz.questionCount++;
-        await quiz.save();
-
-        return res.json({
-            message: 'Question created!',
-            newQuestion,
-        });
     } catch (error) {
         console.error(error);
-        return handleErrorResponse(res, 500, 'Internal server error');
+        handleErrorResponse(res, 500, 'Internal Server error');
     }
 };
 
