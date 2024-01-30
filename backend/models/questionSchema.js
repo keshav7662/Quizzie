@@ -19,11 +19,23 @@ const questionSchema = mongoose.Schema({
     },
     timer: {
         type: String,
-        enum: ['OFF', '5 Sec', '10 Sec'],
+        enum: ['OFF', '5', '10'],
         required: true
+    },
+    attempts: {
+        type: Number,
+        default: 0
+    },
+    correctAnswers: {
+        type: Number,
+        default: 0
+    },
+    incorrectAnswers: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true
-})
+});
 
-module.exports = mongoose.model('Question', questionSchema)
+module.exports = mongoose.model('Question', questionSchema);
