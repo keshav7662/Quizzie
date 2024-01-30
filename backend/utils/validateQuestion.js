@@ -26,7 +26,7 @@ const validateQuestions = (questions,quiz) => {
             break;
         }
 
-        const validTimers = ['OFF', '5 Sec', '10 Sec'];
+        const validTimers = ['OFF', '5', '10'];
         if (!validTimers.includes(question.timer)) {
             errors.timerError = 'Invalid timer value';
             break;
