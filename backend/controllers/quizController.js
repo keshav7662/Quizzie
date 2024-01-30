@@ -16,7 +16,7 @@ const createQuiz = async (req, res) => {
         return res.json({
             message: 'Create your quiz now!',
             quizId: newQuiz._id,
-            quizType:quizType
+            quizType: quizType
         });
     } catch (error) {
         console.error(error);
@@ -33,7 +33,7 @@ const createQuestion = async (req, res) => {
         if (!quiz) {
             return handleErrorResponse(res, 400, 'First create a quiz, then add a question!');
         }
-        const errors = validateQuestions(questionsData,quiz);
+        const errors = validateQuestions(questionsData, quiz);
         if (Object.keys(errors).length === 0) {
             const createdQuestions = await Question.create(questionsData);
             quiz.questions.push(...createdQuestions);
@@ -54,17 +54,27 @@ const createQuestion = async (req, res) => {
 
 const getAllQuizzes = async (req, res) => {
     try {
-        const userId = req.user.userId;
-        const allQuizzes = await Quiz.find({ userId }).populate('questions');
-        if (allQuizzes) {
-            return res.status(200).json({
-                allQuizzes
-            })
+        const { userId } = req.user;
+        const { quizId } = req.params;
+        if (!quizId) {
+            const allQuizzes = await Quiz.find({ userId }).populate("questions");
+            if (allQuizzes) {
+                return res.status(200).json({
+                    allQuizzes,
+                });
+            }
+        } else {
+            const quizDetails = await Quiz.findOne({ userId, _id: quizId }).populate(
+                "questions"
+            );
+            if (quizDetails) {
+                return res.status(200).json({ quizDetails });
+            }
         }
     } catch (error) {
-        handleErrorResponse(res, 500, 'Internal Server error');
+        handleErrorResponse(res, 500, "Internal Server error");
     }
-}
+};
 
 const deleteQuiz = async (req, res) => {
     try {
