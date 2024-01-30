@@ -125,9 +125,9 @@ export const addQuestion = async (quizId, questionData) => {
     } catch (error) {
         console.log(error);
         toast.error((error.response.data.error.answerError ||
-            error.response.data.error.titleErrror||
-            error.response.data.error.optionLengthError||
-            error.response.data.error.optionError||
+            error.response.data.error.titleErrror ||
+            error.response.data.error.optionLengthError ||
+            error.response.data.error.optionError ||
             error.response.data.error.timerError), {
             position: "top-right",
             autoClose: 2000,
@@ -149,7 +149,7 @@ export const getQuizById = async (id) => {
             Authorization: token,
         };
         const response = await axios.get(`${backendBaseURL}/quiz/quiz-by-id/${id}`, { headers })
-        console.log('service',response)
+        console.log('service', response)
         return response.data;
     } catch (error) {
         toast.error(error.response.data.error, {
