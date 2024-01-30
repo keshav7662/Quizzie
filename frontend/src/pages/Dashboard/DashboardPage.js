@@ -7,7 +7,7 @@ import AnalysisPage from '../Analysis/AnalysisPage';
 import SweetAlert from '../../components/SweetAlert/SweetAlert';
 import CreateQuizCard from '../../components/CreateQuizCard/CreateQuizCard';
 import AddQuestionPage from '../AddQuestion/AddQuestionPage';
-import QuizPublishPage from '../QuizPublish/QuizPublishPage';
+import QuizLinkPage from '../QuizLink/QuizLinkPage';
 
 const DashboardPage = () => {
   const [selectedButton, setSelectedButton] = useState('Dashboard');
@@ -66,8 +66,9 @@ const DashboardPage = () => {
           />
         </div>) : showPublishPage ? (
           <div className={styles.createQuizContainer} onClick={hideCreateQuizCard}>
-            <QuizPublishPage 
+            <QuizLinkPage 
               hideCreateQuizCard={hideCreateQuizCard}
+              receivedQuizId={receivedQuizId}
             />
           </div>
         ) : null

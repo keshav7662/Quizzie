@@ -89,4 +89,19 @@ const deleteQuiz = async (req, res) => {
     }
 };
 
-module.exports = { createQuestion, createQuiz, getAllQuizzes, deleteQuiz };
+const getQuizById = async (req,res) => {
+    try {
+        const {id} = req.params;
+        const requiredQuiz = await Quiz.findById(id).populate('questions');
+        if(!requiredQuiz) {
+            return handleErrorResponse(res, 400, 'Quiz is not available!')
+        } 
+        return res.status(200).json({
+            requiredQuiz
+        })
+    } catch (error) {
+        return handleErrorResponse(res, 500, 'Internal server error!');
+    }
+}
+
+module.exports = { createQuestion, createQuiz, getAllQuizzes, deleteQuiz,getQuizById };
