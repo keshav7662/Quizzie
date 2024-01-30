@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/create-quiz', authenticatedUser, createQuiz)
 router.post('/add-question/:id?', authenticatedUser, createQuestion)
-router.get('/all-quiz', authenticatedUser, getAllQuizzes)
+router.get('/get-quiz/:quizId?', authenticatedUser, getAllQuizzes)
 router.delete('/delete-quiz/:id', authenticatedUser, deleteQuiz)
 
 module.exports = router;
