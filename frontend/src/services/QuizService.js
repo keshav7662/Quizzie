@@ -140,3 +140,27 @@ export const addQuestion = async (quizId, questionData) => {
         });
     }
 }
+
+export const getQuizById = async (id) => {
+    try {
+        const token = localStorage.getItem('token')
+        const headers = {
+            'Content-Type': 'application/json',
+            Authorization: token,
+        };
+        const response = await axios.get(`${backendBaseURL}/quiz/quiz-by-id/${id}`, { headers })
+        console.log('service',response)
+        return response.data;
+    } catch (error) {
+        toast.error(error.response.data.error, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+    }
+}
