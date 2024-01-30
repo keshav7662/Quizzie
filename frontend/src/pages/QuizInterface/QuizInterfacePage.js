@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import styles from './quizInterfacePage.module.css';
 import { getQuizById } from '../../services/QuizService';
 import useCountdownTimer from '../../utils/useCountdownTimer';
+import { toast } from 'react-toastify';
 
 const QuizInterfacePage = () => {
   const { id } = useParams();
@@ -11,6 +12,9 @@ const QuizInterfacePage = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
   const handleTimerEnd = () => {
+    if (availableSecond === 1 && currentQuestionIndex === questionsForQuiz.length - 1) {
+      return toast.success('Quiz completed!')
+    }
     setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     setSelectedOption(null);
   }
