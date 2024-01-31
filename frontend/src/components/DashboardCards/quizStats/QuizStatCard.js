@@ -1,24 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styles from './quizStatCard.module.css';
-import { getAllQuizzes } from '../../../services/QuizService';
 
-const QuizStatCard = () => {
-  const [data, setData] = useState([]);
-  const [totalQuestion, setTotalQuestion] = useState(0);
-
-  useEffect(() => {
-    const getQuizData = async () => {
-      const response = await getAllQuizzes();
-      setData(response.allQuizzes);
-
-      let total = 0;
-      response.allQuizzes.forEach((item) => {
-        total += item.questions.length;
-      });
-      setTotalQuestion(total);
-    };
-    getQuizData();
-  }, []);
+const QuizStatCard = ({ data, totalQuestion, totalImpression }) => {
 
   return (
     <div className={styles.quizStatsContainer}>
@@ -38,7 +21,7 @@ const QuizStatCard = () => {
       </div>
       <div className={`${styles.quizCard} ${styles.blueText}`}>
         <div className={styles.cardContent}>
-          <p>998</p>
+          <p>{totalImpression}</p>
           <span>Total</span>
         </div>
         <span>Impressions</span>

@@ -5,6 +5,7 @@ import { userLogin, userRegistration } from "../../services/AuthService";
 
 const Form = () => {
   const [showSignUpForm, setShowSignUpForm] = useState(true);
+  const [loading, setLoading] = useState(false)
   const [userData, setUserData] = useState({
     fullName: "",
     email: "",
@@ -22,12 +23,14 @@ const Form = () => {
 
   const handleRegistration = async (e) => {
     e.preventDefault();
+    setLoading(true)
     if (showSignUpForm) {
       const response = await userRegistration(userData);
       if (response) {
         localStorage.setItem('token', response.token)
         resetForm();
         setShowSignUpForm(false);
+        setLoading(false)
         navigate('/dashboard')
       }
     } else {
@@ -35,6 +38,7 @@ const Form = () => {
       if (response) {
         localStorage.setItem('token', response.token)
         resetForm();
+        setLoading(false)
         navigate('/dashboard')
       }
     }
@@ -116,8 +120,8 @@ const Form = () => {
             </div>
           )}
           <div className={styles.submitBtn}>
-            <button type="submit">
-              {showSignUpForm ? "Sign-Up" : "Log In"}
+            <button type="submit" disabled={loading}>
+              {loading ? "Loading..." : showSignUpForm ? "Sign-Up" : "Log In"}
             </button>
           </div>
         </form>

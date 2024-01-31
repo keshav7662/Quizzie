@@ -1,0 +1,47 @@
+.question {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.qaCardContainer {
+  display: flex;
+  align-items: cneter;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.qaCardContainer>div {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem 0.5rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.pollCardContainer {
+  display: flex;
+  align-items: cneter;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.pollCardContainer>div {
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  padding: 2.2rem 3rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+hr {
+  margin: 3rem 0;
+  width: 100%;
+}
