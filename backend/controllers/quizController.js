@@ -16,7 +16,7 @@ const createQuiz = async (req, res) => {
         return res.json({
             message: 'Create your quiz now!',
             quizId: newQuiz._id,
-            quizType:quizType
+            quizType: quizType
         });
     } catch (error) {
         console.error(error);
@@ -33,7 +33,7 @@ const createQuestion = async (req, res) => {
         if (!quiz) {
             return handleErrorResponse(res, 400, 'First create a quiz, then add a question!');
         }
-        const errors = validateQuestions(questionsData,quiz);
+        const errors = validateQuestions(questionsData, quiz);
         if (Object.keys(errors).length === 0) {
             const createdQuestions = await Question.create(questionsData);
             quiz.questions.push(...createdQuestions);
@@ -66,6 +66,53 @@ const getAllQuizzes = async (req, res) => {
     }
 }
 
+const updateQuizResults = async (req, res) => {
+    try {
+        const quizId = req.params.quizId;
+        const updatedQuestionsData = req.body.quizResults || [];
+        const impressions = req.body.impressions;
+
+        const quiz = await Quiz.findById(quizId);
+        if (!quiz) {
+            return handleErrorResponse(res, 400, "Quiz not found!");
+        }
+
+        const validUpdatedQuestions = [];
+
+        for (const updatedQuestionData of updatedQuestionsData) {
+            const questionIdToUpdate = updatedQuestionData._id;
+
+            const questionIndex = quiz.questions.indexOf(questionIdToUpdate);
+
+            if (questionIndex === -1) {
+                continue;
+            }
+
+            const updatedQuestion = await Question.findByIdAndUpdate(
+                questionIdToUpdate,
+                updatedQuestionData,
+                { new: true }
+            );
+
+            if (updatedQuestion) {
+                quiz.questions[questionIndex] = updatedQuestion._id;
+                validUpdatedQuestions.push(updatedQuestion);
+            }
+        }
+        quiz.impressions = impressions;
+        quiz.questionCount = validUpdatedQuestions.length;
+        await quiz.save();
+
+        return res.status(200).json({
+            message: "Questions Updated Successfully!",
+            updatedQuestions: validUpdatedQuestions,
+        });
+    } catch (error) {
+        console.error("Error updating questions:", error);
+        return handleErrorResponse(res, 500, "Internal Server Error");
+    }
+};
+
 const deleteQuiz = async (req, res) => {
     try {
         const { id } = req.params;
@@ -89,13 +136,13 @@ const deleteQuiz = async (req, res) => {
     }
 };
 
-const getQuizById = async (req,res) => {
+const getQuizById = async (req, res) => {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const requiredQuiz = await Quiz.findById(id).populate('questions');
-        if(!requiredQuiz) {
+        if (!requiredQuiz) {
             return handleErrorResponse(res, 400, 'Quiz is not available!')
-        } 
+        }
         return res.status(200).json({
             requiredQuiz
         })
@@ -104,4 +151,4 @@ const getQuizById = async (req,res) => {
     }
 }
 
-module.exports = { createQuestion, createQuiz, getAllQuizzes, deleteQuiz,getQuizById };
+module.exports = { createQuestion, createQuiz, getAllQuizzes, deleteQuiz, getQuizById, updateQuizResults };
