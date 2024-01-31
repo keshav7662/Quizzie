@@ -2,13 +2,16 @@
     position: relative;
     display: flex;
 }
-.sidebarContainer{
+
+.sidebarContainer {
     width: 20%;
 }
-.quizStatsContainer{
+
+.quizStatsContainer {
     width: 70%;
     margin: auto;
 }
+
 .quizStatsSubContainer {
     margin: 3rem auto;
     width: 100%
@@ -46,6 +49,7 @@
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 999;
 }
+
 .createQuizContainer {
     position: absolute;
     left: 0;
@@ -58,4 +62,42 @@
     align-items: center;
     background-color: rgba(0, 0, 0, 0.7);
     z-index: 999;
+}
+
+.loaderContainer {
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    display: grid;
+    animation: l14 4s infinite;
+}
+
+.loader::before,
+.loader::after {
+    content: "";
+    grid-area: 1/1;
+    border: 8px solid;
+    border-radius: 50%;
+    border-color: red red #0000 #0000;
+    mix-blend-mode: darken;
+    animation: l14 1s infinite linear;
+}
+
+.loader::after {
+    border-color: #0000 #0000 blue blue;
+    animation-direction: reverse;
+}
+
+@keyframes l14 {
+    100% {
+        transform: rotate(1turn)
+    }
 }

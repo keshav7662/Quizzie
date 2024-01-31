@@ -3,13 +3,16 @@
     align-items: center;
     justify-content: space-around;
 }
-.iconCell > img {
-    cursor:pointer
+
+.iconCell>img {
+    cursor: pointer
 }
+
 .analysisToReview {
     text-decoration: underline;
     cursor: pointer;
 }
+
 table td:first-child {
     border-radius: 10px 0 0 10px;
 }

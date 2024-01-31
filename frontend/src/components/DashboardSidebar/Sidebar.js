@@ -2,13 +2,12 @@ import React from 'react';
 import styles from './sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ selectedButton, handleSidebarButtonClick, setShowCreateQuiz }) => {
+const Sidebar = ({ selectedButton, handleSidebarButtonClick, setShowCreateQuiz, setShowQuizwiseAnalysisPage }) => {
 
   const buttonNames = ['Dashboard', 'Analytics'];
-
   const navigate = useNavigate();
-
   const handleLogout = () => {
+    localStorage.removeItem("token");
     navigate('/register');
   };
 
@@ -24,7 +23,7 @@ const Sidebar = ({ selectedButton, handleSidebarButtonClick, setShowCreateQuiz }
           <button
             key={buttonName}
             className={getButtonClass(buttonName)}
-            onClick={() => handleSidebarButtonClick(buttonName)}
+            onClick={() => (handleSidebarButtonClick(buttonName), setShowQuizwiseAnalysisPage(false))}
           >
             {buttonName}
           </button>

@@ -15,6 +15,12 @@
     padding: 0rem 1rem;
 }
 
+.flexContainer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
 .addQuestionForm {
     display: flex;
     margin: 0 auto;
@@ -95,7 +101,8 @@
     font-family: 'poppins';
     font-weight: 500;
 }
-.smallerTextInput{
+
+.smallerTextInput {
     width: 6rem;
 }
 

@@ -28,13 +28,16 @@
 .questionCountAndTimer>p {
     font-size: 1.5rem;
 }
+
 .secondsLeft {
     color: #D60000;
 }
+
 .questionOptionArea {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
     margin-top: 2rem;
 }
@@ -65,6 +68,7 @@
     border-radius: 10px;
     overflow: hidden;
 }
+
 .individualOptionImage>img {
     width: 100%;
     height: 100%;
@@ -75,9 +79,11 @@
     display: inline-flex;
     justify-content: center;
 }
+
 .selected {
     border: 4px solid rgb(8, 241, 24);
 }
+
 .submitBtn>button {
     padding: 0.5rem 5rem;
     font-size: 1.2rem;
@@ -116,4 +122,50 @@
 .individualOptionTextAndImage img {
     width: 100%;
     height: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .quizInterfaceContainer {
+        padding: 0rem;
+        background: none;
+    }
+
+    .quizPlayArea {
+        border-radius: 0;
+        width: 100%;
+        height: 100vh;
+        box-shadow: none;
+    }
+
+    .optionArea {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .individualOptionText {
+        width: 100%;
+        height: 80px;
+    }
+
+    .individualOptionImage {
+        background: #F0F0F0;
+        width: 100%;
+        height: 100px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .individualOptionImage>img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .individualOptionTextAndImage {
+        width: 100%;
+        height: 100px;
+    }
+
 }

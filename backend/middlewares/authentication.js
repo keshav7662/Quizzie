@@ -8,7 +8,7 @@ const authenticatedUser = async (req, res, next) => {
         req.user = user;
         next();
     } catch (error) {
-        return handleErrorResponse(res, 500, error)
+        return handleErrorResponse(res, 500, 'Invalid user, login again!')
     }
 }
 module.exports = authenticatedUser;

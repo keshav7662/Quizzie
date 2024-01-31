@@ -1,17 +1,19 @@
 import React from 'react'
 import styles from './trendingStatCard.module.css'
 import impressionSvg from '../../../assets/eye.svg'
-const TrendingStatCard = () => {
+import { formatTime } from '../../../utils/TimeFormatter'
+
+const TrendingStatCard = ({ trendingQuizzes }) => {
     return (
         <div className={styles.trendingStatsContainer}>
             <div className={styles.quizCount}>
-                <h2>Quiz 1</h2>
+                <h2>{trendingQuizzes.quizName}</h2>
                 <div className={styles.impressionCount}>
-                    <p>667</p>
+                    <p>{trendingQuizzes.impressions}</p>
                     <img src={impressionSvg} alt="" />
                 </div>
             </div>
-            <p className={styles.createdTime}>Created on : 04 Sep, 2023</p>
+            <p className={styles.createdTime}>{`Created on : ${formatTime(trendingQuizzes.createdAt)}`}</p>
         </div>
     )
 }

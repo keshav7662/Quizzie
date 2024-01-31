@@ -12,10 +12,12 @@
     font-family: 'poppins';
     gap: 1.8rem;
 }
-.publishPageContainer > h1 {
+
+.publishPageContainer>h1 {
     text-align: center;
 }
-.publishPageContainer > input {
+
+.publishPageContainer>input {
     width: 100%;
     padding: 1rem;
     background: #EDEDED;
@@ -23,13 +25,15 @@
     border: none;
     border-radius: 10px;
 }
-.shareBtn{
+
+.shareBtn {
     width: 100%;
     display: inline-flex;
     justify-content: center;
     align-items: center;
 }
-.shareBtn > button {
+
+.shareBtn>button {
     padding: 0.5rem 3.2rem;
     border: none;
     background: #60B84B;
@@ -40,8 +44,9 @@
     border-radius: 10px;
     cursor: pointer;
 }
-.publishPageContainer > input::placeholder{
-    color:black;
+
+.publishPageContainer>input::placeholder {
+    color: black;
     font-family: 'poppins';
     font-weight: 500;
 }

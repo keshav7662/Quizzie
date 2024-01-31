@@ -11,6 +11,7 @@ const useCountdownTimer = (handleTimerEnd) => {
                 setAvailableSecond((prevSecond) => {
                     const nextSecond = prevSecond - 1;
                     if (nextSecond === 0 && handleTimerEnd) {
+                        clearInterval(interval);
                         handleTimerEnd();
                     }
                     return nextSecond;
@@ -18,7 +19,7 @@ const useCountdownTimer = (handleTimerEnd) => {
             }, 1000);
         }
         return () => clearInterval(interval);
-    }, [availableSecond,handleTimerEnd]);
+    }, [availableSecond, handleTimerEnd]);
 
     const initialTimer = (seconds) => {
         setAvailableSecond(seconds);

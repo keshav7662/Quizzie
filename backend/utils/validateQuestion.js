@@ -1,10 +1,10 @@
-const validateQuestions = (questions,quiz) => {
+const validateQuestions = (questions, quiz) => {
     const errors = {};
 
     if ([...quiz.questions, ...questions].length > 5) {
         errors.titleError = 'Maximum Question limit reached!';
     }
-    
+
     for (const [index, question] of questions.entries()) {
         if (!question.title.trim()) {
             errors.titleError = 'Title cannot be empty';
@@ -21,7 +21,7 @@ const validateQuestions = (questions,quiz) => {
             break;
         }
 
-        if (!question.answer || !question.answer.trim()) {
+        if (quiz.quizType !== 'poll' && (!question.answer || !question.answer.trim())) {
             errors.answerError = 'Answer cannot be empty';
             break;
         }
@@ -32,7 +32,6 @@ const validateQuestions = (questions,quiz) => {
             break;
         }
     };
-
     return errors;
 };
 

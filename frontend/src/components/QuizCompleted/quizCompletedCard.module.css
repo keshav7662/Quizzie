@@ -1,0 +1,28 @@
+.quizCompletedCard {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.quizScore {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.quizScore>span {
+    font-size: 1.5rem;
+    color: #60B84B;
+}
+
+.pollSuccessContainer>h2 {
+    width: 60%;
+    font-size: 2.5rem;
+    text-align: center;
+    margin: auto;
+}
