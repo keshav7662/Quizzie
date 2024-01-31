@@ -98,8 +98,6 @@ export const createQuiz = async (newQuiz) => {
 }
 
 export const addQuestion = async (quizId, questionData) => {
-    console.log('data for API', questionData)
-    console.log(quizId)
     try {
         const token = localStorage.getItem('token')
         const headers = {
@@ -109,7 +107,6 @@ export const addQuestion = async (quizId, questionData) => {
 
         const response = await axios.post(`${backendBaseURL}/quiz/add-question/${quizId}`, questionData, { headers })
         if (response) {
-            console.log(response)
             toast.success(response.data.message, {
                 position: "top-right",
                 autoClose: 2000,
@@ -149,10 +146,39 @@ export const getQuizById = async (id) => {
             Authorization: token,
         };
         const response = await axios.get(`${backendBaseURL}/quiz/quiz-by-id/${id}`, { headers })
-        console.log('service', response)
         return response.data;
     } catch (error) {
         toast.error(error.response.data.error, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+        });
+    }
+}
+
+export const UpdateQuizResult = async (quizId, impressions, quizResults) => {
+    console.log(quizId);
+    console.log({ impressions, quizResults });
+    // console.log(quizResults);
+    try {
+        const token = localStorage.getItem("token");
+        const headers = {
+            'Content-Type': 'application/json',
+            Authorization: token,
+        };
+        const response = await axios.put(`${backendBaseURL}/quiz/update-quiz-result/${quizId}`, { impressions, quizResults }, { headers })
+        if (response) {
+            return response.data
+
+        }
+    } catch (error) {
+        console.log(error);
+        toast.error((error.response.data.error), {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
