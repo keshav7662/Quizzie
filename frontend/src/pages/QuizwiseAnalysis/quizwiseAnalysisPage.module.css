@@ -1,0 +1,26 @@
+.detailAnalysisPage {
+    font-family: "poppins";
+}
+
+.analysisHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+}
+
+.analysisHead>h1 {
+    color: #5076ff;
+    letter-spacing: 1px;
+}
+
+.analysisHead>div>p {
+    color: #ff5d01;
+    font-weight: 600;
+}
+
+.questionContainer {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    width: 95%;
+}

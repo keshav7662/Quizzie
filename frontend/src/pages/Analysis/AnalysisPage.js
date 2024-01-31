@@ -3,10 +3,15 @@ import AnalysisRow from "../../components/AnalysisRow/AnalysisRow";
 import styles from "./analysisPage.module.css";
 import { getAllQuizzes, deleteQuiz } from "../../services/QuizService";
 import { formatTime } from '../../utils/TimeFormatter'
+
 const AnalysisPage = ({
   setShowSweetAlert,
   confirmDelete,
   setConfirmDelete,
+  setShowQuizwiseAnalysisPage,
+  setReceivedQuizId,
+  setShowAddQuestion,
+  setUpdateBtn,
 }) => {
   const [selectedId, setSelectedId] = useState(null);
   const [quizData, setQuizData] = useState([]);
@@ -65,6 +70,10 @@ const AnalysisPage = ({
               className={index % 2 !== 0 ? styles.evenRow : ""}
               deleteAnalytics={deleteAnalytics}
               setShowSweetAlert={setShowSweetAlert}
+              setShowQuizwiseAnalysisPage={setShowQuizwiseAnalysisPage}
+              setReceivedQuizId={setReceivedQuizId}
+              setShowAddQuestion={setShowAddQuestion}
+              setUpdateBtn={setUpdateBtn}
             />
           ))}
         </tbody>

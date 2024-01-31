@@ -5,7 +5,8 @@ import SequentialQuestionAdder from "../../components/SequentialQuestionButton/S
 import AddQuestionBtn from "../../components/AddQuestionButton/AddQuestionBtn";
 import DeleteBtn from "../../assets/delete.svg";
 import Timer from "../../components/Timer/Timer";
-import { addQuestion } from "../../services/QuizService";
+import { addQuestion, deleteQuiz } from "../../services/QuizService";
+import { getQuizById } from '../../services/QuizService'
 
 const AddQuestionPage = ({
   hideCreateQuizCard,
@@ -13,11 +14,13 @@ const AddQuestionPage = ({
   setShowPublishPage,
   receivedQuizId,
   receivedQuizType,
+  updateBtn
 }) => {
   const [questionCount, setQuestionCount] = useState(1);
   const [optionCount, setOptionCount] = useState(2);
   const [selectedOption, setSelectedOption] = useState();
   const [finalQuestionForQuiz, setFinalQuestionForQuiz] = useState([]);
+  const [questionIndex, setQuestionIndex] = useState(0)
   const [addQuestionData, setAddQuestionData] = useState({
     title: "",
     optionType: "",
@@ -26,8 +29,42 @@ const AddQuestionPage = ({
     timer: "",
   });
   useEffect(() => {
-    console.log("final", finalQuestionForQuiz);
-  }, [finalQuestionForQuiz]);
+    const getDataToEdit = async () => {
+      try {
+        const response = await getQuizById(receivedQuizId);
+        setFinalQuestionForQuiz(response.requiredQuiz.questions);
+        setQuestionCount(response.requiredQuiz.questions.length);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (updateBtn) {
+      getDataToEdit();
+    }
+  }, [updateBtn]);
+
+  useEffect(() => {
+    if (updateBtn && finalQuestionForQuiz && finalQuestionForQuiz.length > 0) {
+      switchPrevQuestion(0);
+    }
+  }, [finalQuestionForQuiz, updateBtn]);
+
+  useEffect(() => {
+    if (!updateBtn) {
+      setFinalQuestionForQuiz((prevQuestions) => {
+        const updatedQuestions = [...prevQuestions];
+        if (!isEqual(updatedQuestions[questionIndex - 1], addQuestionData)) {
+          updatedQuestions[questionIndex] = addQuestionData;
+        }
+        return updatedQuestions;
+      });
+    }
+  }, [addQuestionData, questionIndex]);
+
+  const isEqual = (obj1, obj2) => {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+  }
 
   const handleInputChange = (e, index) => {
     const { name, value } = e.target;
@@ -51,28 +88,51 @@ const AddQuestionPage = ({
       }));
     }
   };
+
+  const switchPrevQuestion = (indexOfPrev) => {
+    setQuestionIndex(indexOfPrev);
+    const prevQuestionData = finalQuestionForQuiz[indexOfPrev];
+    if (updateBtn) {
+      setOptionCount(prevQuestionData.option.length);
+    }
+
+    if (prevQuestionData) {
+      setAddQuestionData(prevQuestionData);
+      setSelectedOption(prevQuestionData.answer || "");
+      setOptionCount(
+        prevQuestionData.option.length >= 2 ? prevQuestionData.option.length : 2
+      );
+      const answerIndex = prevQuestionData.answer || -1;
+      if (answerIndex !== -1) {
+        setSelectedOption(Number(answerIndex));
+      }
+    } else {
+      setAddQuestionData({
+        title: "",
+        optionType: "",
+        option: [],
+        answer: "",
+        timer: "",
+      });
+      setSelectedOption();
+    }
+  };
+
   const handleAddButtonClick = async (actionType) => {
     if (actionType === "addQuestion" && questionCount < 5) {
-      const isQuestionDataFilled = Object.values(addQuestionData).every((value) => value !== "");
-  
-      if (!isQuestionDataFilled) {
-        toast.error("Please fill in all fields before adding a question!", {});
-        return;
-      }
-  
+      setOptionCount(2);
       const updatedQuestionData = { ...addQuestionData, timer: addQuestionData.timer || "OFF" };
-  
+
       const existingQuestionIndex = finalQuestionForQuiz.findIndex((question) => question.title === updatedQuestionData.title);
-  
+
       if (existingQuestionIndex !== -1) {
         setQuestionCount((prevCount) => prevCount + 1);
-
-        finalQuestionForQuiz[existingQuestionIndex] = updatedQuestionData;
+        setQuestionIndex((prevCount) => prevCount + 1)
       } else {
         setFinalQuestionForQuiz([...finalQuestionForQuiz, updatedQuestionData]);
         setQuestionCount((prevCount) => prevCount + 1);
+        setQuestionIndex((prevCount) => prevCount + 1)
       }
-  
       setAddQuestionData({
         title: "",
         optionType: "",
@@ -85,7 +145,7 @@ const AddQuestionPage = ({
       setOptionCount((prevCount) => prevCount + 1);
     }
   };
-  
+
   const handleRemoveItem = (actionType, index) => {
     if (actionType === "cancelOption" && optionCount > 2) {
       setOptionCount((prevCount) => prevCount - 1);
@@ -99,6 +159,7 @@ const AddQuestionPage = ({
       });
     } else if (actionType === "cancelQuestion" && questionCount > 1) {
       setQuestionCount((prevCount) => prevCount - 1);
+      setQuestionIndex((prevCount) => prevCount - 1)
       setFinalQuestionForQuiz((prevQuestions) => {
         const updatedQuestions = [...prevQuestions];
         updatedQuestions.splice(index, 1);
@@ -107,7 +168,7 @@ const AddQuestionPage = ({
         if (previousQuestionIndex >= 0) {
           const { title, optionType, option, answer, timer } =
             updatedQuestions[previousQuestionIndex];
-
+          setOptionCount(option.length) // just to make sure boxes open equal to option length
           setSelectedOption(Number(answer));
           setAddQuestionData({
             title,
@@ -125,7 +186,6 @@ const AddQuestionPage = ({
             timer: "",
           });
         }
-
         return updatedQuestions;
       });
     }
@@ -138,53 +198,32 @@ const AddQuestionPage = ({
       answer: `${index}`,
     }));
   };
-  const isAddQuestionDataValid = () => {
-    const { title, optionType, option, answer } = addQuestionData;
-    return (
-      title !== "" && optionType !== "" && option.length > 0 && answer !== ""
-    );
-  };
 
   const handleQuestionSubmit = async (e) => {
     e.preventDefault();
-    const isValid = isAddQuestionDataValid();
-
-    if (!isValid) {
-      toast.error("Please add at least one question before submitting!", {});
-      return;
-    }
-
     try {
-      const questionExists = finalQuestionForQuiz.some(
-        (question) => question.title === addQuestionData.title
-      );
-
-      const updatedFinalQuestionForQuiz = questionExists
-        ? [...finalQuestionForQuiz]
-        : [
-            ...finalQuestionForQuiz,
-            { ...addQuestionData, timer: addQuestionData.timer || "OFF" },
-          ];
-
-      const response = await addQuestion(receivedQuizId, {
-        questions: updatedFinalQuestionForQuiz,
-      });
-
-      if (response) {
-        setAddQuestionData({
-          title: "",
-          optionType: "",
-          option: [],
-          answer: "",
-          timer: "",
+      if (!updateBtn) {
+        const response = await addQuestion(receivedQuizId, {
+          questions: finalQuestionForQuiz,
+          if(response) {
+            setAddQuestionData({
+              title: "",
+              optionType: "",
+              option: [],
+              answer: "",
+              timer: "",
+            });
+            setFinalQuestionForQuiz([]);
+            setQuestionCount(1);
+            setOptionCount(2);
+            setShowAddQuestion(false);
+            setShowPublishPage(true);
+          }
         });
-        setFinalQuestionForQuiz([]);
-        setQuestionCount(1);
-        setOptionCount(2);
-        setShowAddQuestion(false);
-        setShowPublishPage(true);
       } else {
-        toast.error("Failed to add questions. Please try again.", {});
+        toast.warning("Could not implement frontend due to time constraints, but API is working check controllers!", {})
+        setShowPublishPage(false);
+        setShowAddQuestion(false);
       }
     } catch (error) {
       console.error("Error during API call:", error);
@@ -192,16 +231,27 @@ const AddQuestionPage = ({
   };
 
   const handleTimer = (index, timerValue) => {
-    setAddQuestionData((prevData) => ({
-      ...prevData,
-      timer: timerValue,
-    }));
+    if (!updateBtn) {
+      setAddQuestionData((prevData) => ({
+        ...prevData,
+        timer: timerValue,
+      }));
+    } else {
+      toast.error("You can not modify this feature!", {});
+    }
   };
+
+  const handleCancelQuiz = async () => {
+    if (!updateBtn) {
+      await deleteQuiz(receivedQuizId)
+    }
+    hideCreateQuizCard()
+  }
 
   return (
     <div className={styles.addQuestionBox} onClick={(e) => e.stopPropagation()}>
       <div className={styles.addQuestionBtn}>
-        <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+        <div className={styles.flexContainer}>
           {[...Array(questionCount)].map((_, index) => (
             <SequentialQuestionAdder
               key={index}
@@ -210,12 +260,18 @@ const AddQuestionPage = ({
               onCancelClick={() =>
                 handleRemoveItem("cancelQuestion", index)
               }
+              switchPrevQuestion={switchPrevQuestion}
+              updateBtn={updateBtn}
             />
           ))}
-          <AddQuestionBtn
-            onClick={() => handleAddButtonClick("addQuestion")}
-            count={questionCount}
-          />
+          {updateBtn ? (
+            ""
+          ) : (
+            <AddQuestionBtn
+              onClick={() => handleAddButtonClick("addQuestion")}
+              count={questionCount}
+            />
+          )}
         </div>
         <span>Max 5 questions</span>
       </div>
@@ -285,11 +341,9 @@ const AddQuestionPage = ({
                       type="text"
                       name="text"
                       placeholder="Text"
-                      className={`${
-                        selectedOption === index ? styles.selectedStyle : ""
-                      } ${styles.optionInputBox} ${
-                        selectedOption === index ? styles.whitePlaceholder : ""
-                      } ${styles.smallerTextInput}`}
+                      className={`${selectedOption === index ? styles.selectedStyle : ""
+                        } ${styles.optionInputBox} ${selectedOption === index ? styles.whitePlaceholder : ""
+                        } ${styles.smallerTextInput}`}
                       onChange={(e) => handleInputChange(e, index)}
                       value={addQuestionData.option[index]?.text || ""}
                     />
@@ -297,11 +351,9 @@ const AddQuestionPage = ({
                       type="text"
                       name="image"
                       placeholder="Image URL"
-                      className={`${
-                        selectedOption === index ? styles.selectedStyle : ""
-                      } ${styles.optionInputBox} ${
-                        selectedOption === index ? styles.whitePlaceholder : ""
-                      }`}
+                      className={`${selectedOption === index ? styles.selectedStyle : ""
+                        } ${styles.optionInputBox} ${selectedOption === index ? styles.whitePlaceholder : ""
+                        }`}
                       onChange={(e) => handleInputChange(e, index)}
                       value={addQuestionData.option[index]?.image || ""}
                     />
@@ -312,11 +364,9 @@ const AddQuestionPage = ({
                     name="image"
                     id={`option${index}`}
                     placeholder="Image URL"
-                    className={`${
-                      selectedOption === index ? styles.selectedStyle : ""
-                    } ${styles.optionInputBox} ${
-                      selectedOption === index ? styles.whitePlaceholder : ""
-                    }`}
+                    className={`${selectedOption === index ? styles.selectedStyle : ""
+                      } ${styles.optionInputBox} ${selectedOption === index ? styles.whitePlaceholder : ""
+                      }`}
                     onChange={(e) => handleInputChange(e, index)}
                     value={addQuestionData.option[index]?.image || ""}
                   />
@@ -326,11 +376,9 @@ const AddQuestionPage = ({
                     name="text"
                     id={`option${index}`}
                     placeholder="Text"
-                    className={`${
-                      selectedOption === index ? styles.selectedStyle : ""
-                    } ${styles.optionInputBox} ${
-                      selectedOption === index ? styles.whitePlaceholder : ""
-                    }`}
+                    className={`${selectedOption === index ? styles.selectedStyle : ""
+                      } ${styles.optionInputBox} ${selectedOption === index ? styles.whitePlaceholder : ""
+                      }`}
                     onChange={(e) => handleInputChange(e, index)}
                     value={addQuestionData.option[index]?.text || ""}
                   />
@@ -347,13 +395,17 @@ const AddQuestionPage = ({
                 )}
               </div>
             ))}
-            <button
-              type="button"
-              className={`${styles.optionInputBox} `}
-              onClick={() => handleAddButtonClick("addOption")}
-            >
-              Add Option
-            </button>
+            {updateBtn ? (
+              ""
+            ) : (
+              <button
+                type="button"
+                className={`${styles.optionInputBox} `}
+                onClick={() => handleAddButtonClick("addOption")}
+              >
+                Add Option
+              </button>
+            )}
           </div>
           <div>
             {receivedQuizType !== "poll" && (
@@ -368,12 +420,12 @@ const AddQuestionPage = ({
           <button
             type="button"
             className={styles.cancelBtn}
-            onClick={hideCreateQuizCard}
+            onClick={handleCancelQuiz}
           >
             Cancel
           </button>
           <button type="submit" className={styles.createBtn}>
-            Create Quiz
+            {updateBtn ? "Update Quiz" : "Create Quiz"}
           </button>
         </div>
       </form>
