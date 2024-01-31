@@ -8,7 +8,7 @@ router.post('/create-quiz', authenticatedUser, createQuiz)
 router.post('/add-question/:id?', authenticatedUser, createQuestion)
 router.get('/all-quiz', authenticatedUser, getAllQuizzes)
 router.delete('/delete-quiz/:id', authenticatedUser, deleteQuiz)
-router.get('/quiz-by-id/:id', authenticatedUser, getQuizById)
-router.put('/update-quiz-result/:quizId', authenticatedUser, updateQuizResults);
+router.get('/quiz-by-id/:id', getQuizById)
+router.put('/update-quiz-result/:quizId', updateQuizResults);
 
 module.exports = router;
