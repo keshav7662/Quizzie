@@ -205,21 +205,21 @@ const AddQuestionPage = ({
       if (!updateBtn) {
         const response = await addQuestion(receivedQuizId, {
           questions: finalQuestionForQuiz,
-          if(response) {
-            setAddQuestionData({
-              title: "",
-              optionType: "",
-              option: [],
-              answer: "",
-              timer: "",
-            });
-            setFinalQuestionForQuiz([]);
-            setQuestionCount(1);
-            setOptionCount(2);
-            setShowAddQuestion(false);
-            setShowPublishPage(true);
-          }
-        });
+        })
+        if (response) {
+          setAddQuestionData({
+            title: "",
+            optionType: "",
+            option: [],
+            answer: "",
+            timer: "",
+          });
+          setFinalQuestionForQuiz([]);
+          setQuestionCount(1);
+          setOptionCount(2);
+          setShowAddQuestion(false);
+          setShowPublishPage(true);
+        }
       } else {
         toast.warning("Could not implement frontend due to time constraints, but API is working check controllers!", {})
         setShowPublishPage(false);
