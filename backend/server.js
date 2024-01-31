@@ -32,7 +32,6 @@ app.use((req, res, next) => {
     res.status(404).json({ message: 'Route not found' });
 });
 
-
 const startServer = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI);
