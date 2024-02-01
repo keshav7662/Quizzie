@@ -7,6 +7,7 @@ const CreateQuizCard = ({ hideCreateQuizCard, setShowCreateQuiz, setShowAddQuest
         quizName: '',
         quizType: '',
     });
+    const [loading, setLoading] = useState(false);
 
     const [selectedType, setSelectedType] = useState(null);
 
@@ -26,6 +27,7 @@ const CreateQuizCard = ({ hideCreateQuizCard, setShowCreateQuiz, setShowAddQuest
         }));
     };
     const handleCreateQuiz = async () => {
+        setLoading(true);
         try {
             const response = await createQuiz(newQuiz);
             if (response) {
@@ -33,6 +35,9 @@ const CreateQuizCard = ({ hideCreateQuizCard, setShowCreateQuiz, setShowAddQuest
                 setReceivedQuizType(response.quizType)
                 setShowAddQuestion(true);
                 setShowCreateQuiz(false);
+                setLoading(false);
+            } else {
+                setLoading(false);
             }
         } catch (error) {
             console.log(error)
@@ -65,7 +70,7 @@ const CreateQuizCard = ({ hideCreateQuizCard, setShowCreateQuiz, setShowAddQuest
             <div className={styles.actionBtn}>
                 <button className={styles.cancelBtn} onClick={hideCreateQuizCard}>Cancel</button>
                 <button className={styles.continueBtn} onClick={handleCreateQuiz}>
-                    Continue
+                  {loading? "Loading...": "Continue"}  
                 </button>
             </div>
         </div>

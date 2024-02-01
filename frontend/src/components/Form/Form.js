@@ -32,6 +32,8 @@ const Form = () => {
         setShowSignUpForm(false);
         setLoading(false)
         navigate('/dashboard')
+      } else {
+        setLoading(false)
       }
     } else {
       const response = await userLogin(userData);
@@ -40,6 +42,8 @@ const Form = () => {
         resetForm();
         setLoading(false)
         navigate('/dashboard')
+      } else {
+        setLoading(false)
       }
     }
   };

@@ -45,6 +45,7 @@ export const userLogin = async (userData) => {
         });
         return response.data;
     } catch (error) {
+        console.log(error)
         toast.error(error.response.data.error, {
             position: "top-center",
             autoClose: 2000,

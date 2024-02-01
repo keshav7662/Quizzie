@@ -125,7 +125,8 @@ export const addQuestion = async (quizId, questionData) => {
             error.response.data.error.titleErrror ||
             error.response.data.error.optionLengthError ||
             error.response.data.error.optionError ||
-            error.response.data.error.timerError), {
+            error.response.data.error.timerError||
+            error.response.data.error.emptyFields), {
             position: "top-right",
             autoClose: 2000,
             hideProgressBar: false,
