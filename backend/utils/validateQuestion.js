@@ -4,6 +4,9 @@ const validateQuestions = (questions, quiz) => {
     if ([...quiz.questions, ...questions].length > 5) {
         errors.titleError = 'Maximum Question limit reached!';
     }
+    if ([...quiz.questions, ...questions].length === 0) {
+        errors.emptyFields = 'All fields are mandatory!';
+    }
 
     for (const [index, question] of questions.entries()) {
         if (!question.title.trim()) {
