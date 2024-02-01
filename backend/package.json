@@ -14,7 +14,7 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "server.js",
-  "engines": {"node":"14.x"},
+  "engines": {"node":"20.x"},
   "devDependencies": {},
   "keywords": [],
   "author": "",
