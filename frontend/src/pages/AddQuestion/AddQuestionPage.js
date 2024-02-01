@@ -20,7 +20,8 @@ const AddQuestionPage = ({
   const [optionCount, setOptionCount] = useState(2);
   const [selectedOption, setSelectedOption] = useState();
   const [finalQuestionForQuiz, setFinalQuestionForQuiz] = useState([]);
-  const [questionIndex, setQuestionIndex] = useState(0)
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [addQuestionData, setAddQuestionData] = useState({
     title: "",
     optionType: "",
@@ -200,6 +201,8 @@ const AddQuestionPage = ({
   };
 
   const handleQuestionSubmit = async (e) => {
+    setLoading(true);
+
     e.preventDefault();
     try {
       if (!updateBtn) {
@@ -219,11 +222,15 @@ const AddQuestionPage = ({
           setOptionCount(2);
           setShowAddQuestion(false);
           setShowPublishPage(true);
+          setLoading(false);
+        } else {
+          setLoading(false);
         }
       } else {
         toast.warning("Could not implement frontend due to time constraints, but API is working check controllers!", {})
         setShowPublishPage(false);
         setShowAddQuestion(false);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error during API call:", error);
@@ -425,7 +432,7 @@ const AddQuestionPage = ({
             Cancel
           </button>
           <button type="submit" className={styles.createBtn}>
-            {updateBtn ? "Update Quiz" : "Create Quiz"}
+            {loading ? 'Loading...' : updateBtn ? "Update Quiz" : "Create Quiz"}
           </button>
         </div>
       </form>
