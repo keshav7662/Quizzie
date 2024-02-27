@@ -45,6 +45,7 @@ const createUser = async (req, res) => {
     }
 };
 
+
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -64,9 +65,11 @@ const loginUser = async (req, res) => {
         }
 
         const token = jwt.sign({ userId: validUser._id }, process.env.JWT_KEY);
+
         return res.status(200).json({
             message: 'Login successful!',
             token,
+            validUser
         });
     } catch (error) {
         console.error(error);

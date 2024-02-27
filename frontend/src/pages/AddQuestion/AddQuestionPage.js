@@ -166,11 +166,13 @@ const AddQuestionPage = ({
         updatedQuestions.splice(index, 1);
         const previousQuestionIndex = index - 1;
 
-        if (previousQuestionIndex >= 0) {
+        if (previousQuestionIndex >= 0 && updatedQuestions[previousQuestionIndex]!==undefined) {
+          
+          console.log( updatedQuestions[previousQuestionIndex])
           const { title, optionType, option, answer, timer } =
             updatedQuestions[previousQuestionIndex];
-          setOptionCount(option.length) // just to make sure boxes open equal to option length
-          setSelectedOption(Number(answer));
+          setOptionCount(option.length || 2) // just to make sure boxes open equal to option length
+          setSelectedOption(Number(answer)|| null);
           setAddQuestionData({
             title,
             optionType,
