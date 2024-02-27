@@ -1,6 +1,6 @@
-# QuizWhiz - Quiz Builder App
+# Quizzie - Quiz Builder App
 
-QuizWhiz is an interactive quiz builder app that allows users to create and share quizzes with their friends. Whether you want to challenge your friends with a Q&A quiz or gather opinions through a poll, QuizWhiz has got you covered. Users can create an account, log in, and seamlessly manage their quizzes, track analytics, and share the joy of quizzing with others.
+Quizzie is an interactive quiz builder app that allows users to create and share quizzes with their friends. Whether you want to challenge your friends with a Q&A quiz or gather opinions through a poll, Quizzie has got you covered. Users can create an account, log in, and seamlessly manage their quizzes, track analytics, and share the joy of quizzing with others.
 
 ## Features
 
@@ -34,7 +34,7 @@ QuizWhiz is an interactive quiz builder app that allows users to create and shar
 
 8. **Two Quiz Types**
 
-   - QuizWhiz supports two types of quizzes: Q&A and Polls, catering to diverse quiz needs.
+   - Quizzie supports two types of quizzes: Q&A and Polls, catering to diverse quiz needs.
 
 9. **Question Structure**
 
@@ -53,7 +53,7 @@ QuizWhiz is an interactive quiz builder app that allows users to create and shar
 
 ## Getting Started
 
-To get started with QuizWhiz, follow these steps:
+To get started with Quizzie, follow these steps:
 
 1. Clone the repository.
 2. Set up the necessary dependencies.
@@ -68,10 +68,10 @@ To get started with QuizWhiz, follow these steps:
 
 ## Contributing
 
-We welcome contributions from the community! Feel free to open issues or submit pull requests to enhance QuizWhiz.
+We welcome contributions from the community! Feel free to open issues or submit pull requests to enhance Quizzie.
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
 
-Start quizzing with QuizWhiz and share your knowledge and creativity with the world!
+Start quizzing with Quizzie and share your knowledge and creativity with the world!
