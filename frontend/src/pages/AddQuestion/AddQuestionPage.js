@@ -167,7 +167,6 @@ const AddQuestionPage = ({
         const previousQuestionIndex = index - 1;
 
         if (previousQuestionIndex >= 0 && updatedQuestions[previousQuestionIndex]!==undefined) {
-          
           console.log( updatedQuestions[previousQuestionIndex])
           const { title, optionType, option, answer, timer } =
             updatedQuestions[previousQuestionIndex];
