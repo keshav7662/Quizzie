@@ -12,10 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-    origin: [
-        "https://quizzie-seven.vercel.app/",
-        "*",
-    ],
+    origin: "https://quizzie-seven.vercel.app/",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"],
     credentials: true,
 }));
