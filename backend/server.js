@@ -11,7 +11,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
+app.use(cors({
+    origin: [
+      "http://localhost:3000",
+      "https://quizzie-seven.vercel.app/",
+      "*",
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD"],
+    credentials: true,
+}));
 
 app.get('/', (req, res) => {
     res.send('Welcome to QuizWhiz server');
