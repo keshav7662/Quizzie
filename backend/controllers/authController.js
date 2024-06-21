@@ -45,7 +45,6 @@ const createUser = async (req, res) => {
     }
 };
 
-
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -54,7 +53,7 @@ const loginUser = async (req, res) => {
             return handleErrorResponse(res, 400, 'Email and Password are required!');
         }
 
-        const validUser = await User.findOne({ email });
+        const validUser = await User.findOne({ email }).select('email password');
         if (!validUser) {
             return handleErrorResponse(res, 401, 'User is not valid, please register again!');
         }
@@ -65,12 +64,13 @@ const loginUser = async (req, res) => {
         }
 
         const token = jwt.sign({ userId: validUser._id }, process.env.JWT_KEY);
-
+        validUser.password = undefined;
         return res.status(200).json({
             message: 'Login successful!',
             token,
             validUser
         });
+
     } catch (error) {
         console.error(error);
         return handleErrorResponse(res, 500, 'Internal server error!');
