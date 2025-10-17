@@ -1,0 +1,224 @@
+.formContainer {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100vw;
+  min-width: 320px;
+  box-sizing: border-box;
+}
+
+.registrationArea {
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 0 30px 0 rgba(0, 0, 0, .15);
+  width: 100%;
+  max-width: 800px;
+  /* Increased max-width */
+  margin: 0 auto;
+  padding: 2rem 2rem;
+}
+
+.quizTitle {
+  color: #474444;
+  font-family: 'Jomhuria';
+  font-size: 5rem;
+  font-style: normal;
+  font-weight: 550;
+  line-height: normal;
+  margin-top: 1rem;
+  letter-spacing: 2px;
+  margin-top: 2%;
+  word-break: break-word;
+}
+
+.toggleBtn {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 2%;
+  flex-wrap: wrap;
+}
+
+.toggleBtn>button {
+  color: #474444;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  padding: 0rem 2.5rem;
+  font-size: 1.2rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.isSelected {
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0px 0px 50px 0px rgba(0, 25, 255, 0.24);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem auto;
+  align-items: center;
+  width: 100%;
+}
+
+.formGroup {
+  display: flex;
+  align-items: center;
+  /* Align label and input vertically */
+  justify-content: flex-end;
+  gap: 2.5rem;
+  width: 100%;
+  /* Use full width of parent */
+  max-width: 700px;
+  /* Slightly less than registrationArea */
+}
+
+.formGroup>label {
+  font-family: 'poppins';
+  font-weight: 600;
+  font-size: 1rem;
+  min-width: 120px;
+  /* Prevent label from shrinking */
+  text-align: right;
+}
+
+.formGroup>input {
+  padding: 0.5rem 1rem;
+  background: #f4f4f4;
+  border: none;
+  border-radius: 0.425rem 0.425rem 0 0;
+  width: 70%;
+  /* Wider input for larger form */
+  min-width: 180px;
+}
+
+.submitBtn {
+  display: flex;
+  justify-content: center;
+}
+
+.submitBtn :hover {
+  background-color: #1239c6;
+  color: #fff;
+}
+
+.submitBtn>button {
+  font-family: Poppins;
+  font-weight: 600;
+  background: #a9bcff;
+  border: none;
+  border-radius: 0.5rem;
+  color: #474444;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.3rem 7rem;
+  max-width: 100%;
+}
+
+/* --- Responsive Styles --- */
+@media (max-width: 900px) {
+  .formContainer {
+    padding: 5% 2%;
+  }
+
+  .registrationArea {
+    width: 95%;
+    max-width: 95vw;
+  }
+
+  .quizTitle {
+    font-size: 3rem;
+  }
+
+  .toggleBtn>button {
+    font-size: 1rem;
+    padding: 0rem 1.5rem;
+  }
+
+  .formGroup {
+    width: 90%;
+    gap: 1rem;
+    max-width: 350px;
+  }
+
+  .formGroup>input {
+    width: 70%;
+  }
+
+  .submitBtn>button {
+    padding: 0.3rem 3rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .formContainer {
+    padding: 2% 0%;
+    height: auto;
+  }
+
+  .registrationArea {
+    border-radius: 0.5rem;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.10);
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+  }
+
+  .quizTitle {
+    font-size: 2rem;
+    margin-top: 1rem;
+  }
+
+  .toggleBtn {
+    gap: 1rem;
+  }
+
+  .toggleBtn>button {
+    font-size: 0.9rem;
+    padding: 0rem 0.8rem;
+  }
+
+  form {
+    gap: 1rem;
+    margin: 1rem auto;
+    width: 100%;
+  }
+
+  .formGroup {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 0.5rem;
+    max-width: 100vw;
+  }
+
+  .formGroup>label {
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+    text-align: left;
+    min-width: 0;
+  }
+
+  .formGroup>input {
+    width: 100%;
+    font-size: 1rem;
+    min-width: 0;
+  }
+
+  .submitBtn>button {
+    padding: 0.3rem 1.5rem;
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+}

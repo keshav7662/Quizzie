@@ -1,52 +1,91 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AnalysisRow from "../../components/AnalysisRow/AnalysisRow";
 import styles from "./analysisPage.module.css";
-import { getAllQuizzes, deleteQuiz } from "../../services/QuizService";
-import { formatTime } from '../../utils/TimeFormatter'
+import { deleteQuizApi, getAllQuizApi } from "../../services/QuizService";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const AnalysisPage = ({
-  setShowSweetAlert,
-  confirmDelete,
-  setConfirmDelete,
-  setShowQuizwiseAnalysisPage,
-  setReceivedQuizId,
-  setShowAddQuestion,
-  setUpdateBtn,
-}) => {
-  const [selectedId, setSelectedId] = useState(null);
-  const [quizData, setQuizData] = useState([]);
+const AnalysisPage = () => {
+  const [quizzes, setQuizzes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const getQuizAnalysis = async () => {
+  useEffect(() => {
+    fetchQuizzes();
+  }, []);
+
+  const fetchQuizzes = async () => {
     try {
-      const response = await getAllQuizzes();
-      const sortedData = response.allQuizzes.sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-      );
-      setQuizData(sortedData);
-    } catch (error) {
-      console.error("Error fetching quiz data:", error);
+      setLoading(true);
+      setError("");
+      const response = await getAllQuizApi();
+      setQuizzes(response.quizzes || []);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    const handleDeleteQuiz = async () => {
-      if (confirmDelete && selectedId !== null) {
-        await deleteQuiz(selectedId);
-        setConfirmDelete(false);
-        getQuizAnalysis();
-      }
-    };
+  const handleDelete = async (quizId) => {
+    try {
+      const res = await deleteQuizApi(quizId);
+      setQuizzes((prev) => prev.filter((quiz) => quiz._id !== quizId));
+      toast.success(res.message);
+    } catch (error) {
+      setError(error);
+    }
+  }
 
-    handleDeleteQuiz();
-  }, [confirmDelete, selectedId, setConfirmDelete]);
+  if (loading) {
+    return (
+      <div className={styles.stateWrapper}>
+        <p className={styles.loadingText}>Loading quizzes...</p>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    getQuizAnalysis();
-  }, []);
 
-  const deleteAnalytics = (id) => {
-    setSelectedId(id);
-  };
+  if (error) {
+    const isAuthError =
+      error?.toLowerCase().includes("unauthorized") ||
+      error?.toLowerCase().includes("token") ||
+      error?.toLowerCase().includes("expired") ||
+      error?.toLowerCase().includes("login");
+
+    return (
+      <div className={styles.stateWrapper}>
+        <p className={styles.errorText}>⚠️ {error}</p>
+        {isAuthError ? (
+          <button
+            className={styles.retryBtn}
+            onClick={() => navigate("/login")}
+          >
+            Go to Login
+          </button>
+        ) : (
+          <button className={styles.retryBtn} onClick={fetchQuizzes}>
+            Retry
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  if (quizzes.length === 0) {
+    return (
+      <div className={styles.stateWrapper}>
+        <p className={styles.emptyText}>You haven’t created any quizzes yet.</p>
+        <button
+          className={styles.createBtn}
+          onClick={() => navigate('/create')}
+        >
+          Create Quiz
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.analysisPage}>
@@ -56,24 +95,20 @@ const AnalysisPage = ({
           <tr>
             <th>S.No</th>
             <th>Quiz Name</th>
-            <th>Created on</th>
+            <th>Created On</th>
             <th>Impression</th>
             <th colSpan={2}></th>
           </tr>
         </thead>
+
         <tbody>
-          {quizData.map((item, index) => (
+          {quizzes.map((quiz, idx) => (
             <AnalysisRow
-              item={{ ...item, createdAt: formatTime(item.createdAt) }}
-              key={index}
-              index={index + 1}
-              className={index % 2 !== 0 ? styles.evenRow : ""}
-              deleteAnalytics={deleteAnalytics}
-              setShowSweetAlert={setShowSweetAlert}
-              setShowQuizwiseAnalysisPage={setShowQuizwiseAnalysisPage}
-              setReceivedQuizId={setReceivedQuizId}
-              setShowAddQuestion={setShowAddQuestion}
-              setUpdateBtn={setUpdateBtn}
+              key={quiz._id}
+              quiz={quiz}
+              index={idx + 1}
+              onDelete={handleDelete}
+              className={idx % 2 !== 0 ? styles.evenRow : ""}
             />
           ))}
         </tbody>

@@ -1,0 +1,27 @@
+.roundedBtn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin: 0.5rem;
+}
+
+.closeIcon {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: #ef4444;
+  color: white;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

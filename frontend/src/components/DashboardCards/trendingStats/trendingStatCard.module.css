@@ -1,5 +1,6 @@
-.trendingStatsContainer {
-    width: 15rem;
+.trendingStatsCard {
+    flex: 1 1 250px;
+    max-width: 300px;
     padding: 1rem 1rem;
     display: flex;
     flex-direction: column;
@@ -17,7 +18,9 @@
     font-family: 'poppins';
     font-weight: 600;
 }
-
+.trendingQuizTitle {
+  font-size: 1.2rem;
+}
 .impressionCount {
     display: flex;
     gap: 0.5rem;

@@ -28,7 +28,8 @@
     gap: 2rem;
 }
 
-.navigateBtn>button {
+.navigateBtn>a {
+  text-decoration: none;
     color: #474444;
     font-size: 1.2rem;
     font-family: 'poppins';
@@ -39,7 +40,7 @@
     padding: 0.2rem 1.5rem;
 }
 
-.navigateBtn>button:hover {
+.navigateBtn>a:hover {
     background-color: #cfcbcb;
     border-radius: 10px;
 }

@@ -5,15 +5,15 @@ import { formatTime } from '../../../utils/TimeFormatter'
 
 const TrendingStatCard = ({ trendingQuizzes }) => {
     return (
-        <div className={styles.trendingStatsContainer}>
+        <div className={styles.trendingStatsCard}>
             <div className={styles.quizCount}>
-                <h2>{trendingQuizzes.quizName}</h2>
+                <h2 className={styles.trendingQuizTitle}>My Quiz</h2>
                 <div className={styles.impressionCount}>
-                    <p>{trendingQuizzes.impressions}</p>
+                    <p>200</p>
                     <img src={impressionSvg} alt="" />
                 </div>
             </div>
-            <p className={styles.createdTime}>{`Created on : ${formatTime(trendingQuizzes.createdAt)}`}</p>
+            <p className={styles.createdTime}>{`Created on : ${'22-04-2024'}`}</p>
         </div>
     )
 }

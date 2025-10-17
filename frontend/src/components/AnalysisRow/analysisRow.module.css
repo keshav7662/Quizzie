@@ -1,30 +1,28 @@
 .iconCell {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.iconCell>img {
-    cursor: pointer
-}
+
 
 .analysisToReview {
-    text-decoration: underline;
-    cursor: pointer;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 table td:first-child {
-    border-radius: 10px 0 0 10px;
+  border-radius: 10px 0 0 10px;
 }
 
 table td:last-child {
-    border-radius: 0 10px 10px 0;
+  border-radius: 0 10px 10px 0;
 }
 
 .sweetAlertContainer {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.7);
 }

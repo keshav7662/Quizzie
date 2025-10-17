@@ -1,43 +1,39 @@
-.quizStatsContainer {
-    display: flex;
-    gap: 1.5rem;
+.quizCard {
+  flex: 1 1 280px;
+  max-width: 290px;
+  padding: 10px 0;
+  background: #fff;
+  font-family: 'poppins';
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
 }
 
-.quizCard {
-    width: 15rem;
-    background: #fff;
-    font-family: 'poppins';
-    font-weight: 600;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    padding: 0.5rem 0rem;
+.orange {
+  color: rgb(255, 128, 0);
+}
+
+.lightblue {
+  color: rgb(46, 123, 210);
+}
+
+.green {
+  color: rgb(6, 176, 6);
 }
 
 .cardContent {
-    display: flex;
-    align-items: baseline;
-    gap: 0.2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
-.cardContent>p {
-    font-size: 3rem;
+.quizCard p {
+  font-size: 3rem;
 }
 
 .quizCard span {
-    font-size: 1.5rem;
-}
-
-.orangeText {
-    color: #FF5D01;
-}
-
-.greenText {
-    color: #60B84B;
-}
-
-.blueText {
-    color: #5076FF;
+  font-size: 1.8rem;
 }

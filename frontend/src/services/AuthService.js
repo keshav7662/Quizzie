@@ -1,60 +1,10 @@
-import axios from 'axios'
-import { toast } from 'react-toastify';
-const backendBaseURL = process.env.REACT_APP_BACKEND_BASE_URL;
+import api from './api';
 
-export const userRegistration = async (userData) => {
-    try {
-        const response = await axios.post(`${backendBaseURL}/auth/register`, userData);
-        toast.success(response.data.message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
-        return response.data;
-    } catch (error) {
-        toast.error(error.response.data.error, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
-    }
-}
-
-export const userLogin = async (userData) => {
-    try {
-        const response = await axios.post(`${backendBaseURL}/auth/login`, userData);
-        toast.success(response.data.message, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
-        return response.data;
-    } catch (error) {
-        console.log(error)
-        toast.error(error.response.data.error, {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-        });
-    }
-}
+export const authRequest = async (endpoint, userData) => {
+  try {
+    const response = await api.post(`/auth/${endpoint}`, userData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data?.message || "Registration failed";
+  }
+};

@@ -1,45 +1,59 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { handleErrorResponse } = require('./utils/handleErrorResponse');
-require('dotenv').config();
+const errorHandler = require('./middlewares/errorHandler');
+const ApiError = require('./utils/ApiError');
 
-const auth = require('./routes/authRoute');
-const quiz = require('./routes/quizRoute')
+// Routes
+const authRoutes = require('./routes/authRoute');
+const quizRoutes = require('./routes/quizRoute');
+
 const app = express();
 
+// Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
-app.use(cors({}));
-
+// Health Check & Root
 app.get('/', (req, res) => {
-    res.send('Welcome to QuizWhiz server');
+  res.send('Welcome to Quizzie server 🚀');
 });
 
 app.get('/health', (req, res) => {
-    res.json({
-        serverName: 'QuizWhiz Server',
-        currentTime: new Date(),
-        state: 'active',
-    });
+  res.json({
+    serverName: 'Quizzie Server',
+    currentTime: new Date().toISOString(),
+    state: 'active',
+  });
 });
 
-app.use('/api/auth', auth);
-app.use('/api/quiz', quiz);
+// API Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/quiz', quizRoutes);
 
+// Handle unknown routes
 app.use((req, res, next) => {
-    res.status(404).json({ message: 'Route not found' });
+  next(new ApiError(404, 'Route not found'));
 });
+
+// Centralized error handler (must be last)
+app.use(errorHandler);
 
 const startServer = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log(`Server running on ${process.env.PORT}`);
-    } catch (error) {
-        console.error('MongoDB Connection Error:', error);
-        return handleErrorResponse(res, 500, 'Internal server error!');
-    }
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log('🟢 MongoDB connected successfully');
+
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`⚡ Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error('MongoDB Connection Error:', error);
+    process.exit(1);
+  }
 };
 
-app.listen(process.env.PORT, startServer);
+startServer();

@@ -1,80 +1,82 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const User = require('../models/userSchema');
-const { handleErrorResponse } = require('../utils/handleErrorResponse');
+  const bcrypt = require('bcrypt');
+  const User = require('../models/User');
+  const ApiError = require('../utils/ApiError');
+  const generateToken = require('../utils/generateToken');
 
-const createUser = async (req, res) => {
+  const createUser = async (req, res, next) => {
     try {
-        const { fullName, email, password, confirmPassword } = req.body;
+      const { fullName, email, password, confirmPassword } = req.body;
 
-        if (!fullName && !email && !password && !confirmPassword) {
-            return handleErrorResponse(res, 400, 'All fields are required!');
-        }
-        if (fullName.trim() == '') {
-            return handleErrorResponse(res, 400, 'name is required!')
-        }
-        if (email.trim() == '') {
-            return handleErrorResponse(res, 400, 'email is required!')
-        }
-        if (password.trim() == '') {
-            return handleErrorResponse(res, 400, 'password is required!')
-        }
-        if (confirmPassword.trim() == '') {
-            return handleErrorResponse(res, 400, 'confirm password is required!')
-        }
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return handleErrorResponse(res, 409, 'Email is already registered!');
-        }
-        if (password != confirmPassword) {
-            return handleErrorResponse(res, 401, 'password do not match!');
-        }
+      if (!fullName || !email || !password || !confirmPassword) {
+        throw new ApiError(400, 'All fields are required!');
+      }
+      if (password !== confirmPassword) {
+        throw new ApiError(400, 'Passwords do not match!');
+      }
 
-        const encryptedPassword = await bcrypt.hash(password, 10);
-        const newUser = new User({ fullName, email, password: encryptedPassword });
-        await newUser.save();
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        throw new ApiError(409, 'Email is already registered!');
+      }
 
-        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_KEY);
-        return res.status(201).json({
-            message: 'Registration successful!',
-            token
-        });
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const newUser = await User.create({
+        fullName: fullName.trim(),
+        email: email.trim(),
+        password: hashedPassword,
+      });
+
+      const token = generateToken({ _id: newUser._id, email: newUser.email });
+
+      return res.status(201).json({
+        success: true,
+        message: 'Registration successful!',
+        token,
+        user: {
+          _id: newUser._id,
+          fullName: newUser.fullName,
+          email: newUser.email,
+        },
+      });
     } catch (error) {
-        console.error(error);
-        return handleErrorResponse(res, 500, 'Internal server error!');
+      next(error);
     }
-};
+  };
 
-const loginUser = async (req, res) => {
+  const loginUser = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
+      const { email, password } = req.body;
 
-        if (!email || !password) {
-            return handleErrorResponse(res, 400, 'Email and Password are required!');
-        }
+      if (!email || !password) {
+        throw new ApiError(400, 'Email and password are required!');
+      }
 
-        const validUser = await User.findOne({ email }).select('email password');
-        if (!validUser) {
-            return handleErrorResponse(res, 401, 'User is not valid, please register again!');
-        }
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new ApiError(401, 'Invalid credentials! Please register.');
+      }
 
-        const validPassword = await bcrypt.compare(password, validUser.password);
-        if (!validPassword) {
-            return handleErrorResponse(res, 401, 'Password invalid');
-        }
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        throw new ApiError(401, 'Invalid password!');
+      }
 
-        const token = jwt.sign({ userId: validUser._id }, process.env.JWT_KEY);
-        validUser.password = undefined;
-        return res.status(200).json({
-            message: 'Login successful!',
-            token,
-            validUser
-        });
+      const token = generateToken({ _id: user._id, email: user.email });
 
+      return res.status(200).json({
+        success: true,
+        message: 'Login successful!',
+        token,
+        user: {
+          _id: user._id,
+          fullName: user.fullName,
+          email: user.email,
+        },
+      });
     } catch (error) {
-        console.error(error);
-        return handleErrorResponse(res, 500, 'Internal server error!');
+      next(error);
     }
-};
+  };
 
-module.exports = { createUser, loginUser };
+  module.exports = { createUser, loginUser };

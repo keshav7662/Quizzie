@@ -1,0 +1,10 @@
+.home {
+  display: flex;
+}
+
+.main {
+  flex: 1;
+  margin-left: 20%;
+  padding: 30px;
+  min-height: 100vh;
+}

@@ -1,4 +1,4 @@
-.dashboard {
+/* .dashboard {
     position: relative;
     display: flex;
 }
@@ -100,4 +100,35 @@
     100% {
         transform: rotate(1turn)
     }
+} */
+
+.dashboardPage {
+  max-width: 96%;
+  margin: 0 auto;
+}
+
+.cardContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.trendingCardContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.title {
+  font-family: 'poppins';
+  font-weight: 600;
+  color: #474444;
+  margin: 2rem 0;
+  font-size: 2.5rem;
 }

@@ -1,41 +1,104 @@
+.stateWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  color: #444;
+}
+
+.loadingText {
+  font-size: 1.2rem;
+}
+
+.errorText {
+  color: #e63946;
+  font-weight: 500;
+}
+
+.retryBtn,
+.createBtn {
+  margin-top: 1rem;
+  background-color: #4f46e5;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
+}
+
+.retryBtn:hover,
+.createBtn:hover {
+  background-color: #3730a3;
+}
+
+.emptyText {
+  font-size: 1rem;
+  color: #555;
+}
+
 .analysisPage {
-    font-family: "poppins";
-    font-size: 1rem;
-    font-weight: 600;
+  font-family: "poppins";
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .heading {
-    color: #5076ff;
-    font-size: 2.5rem;
-    text-align: center;
+  color: #5076ff;
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 5%;
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 4px 24px rgba(80, 118, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
 }
 
 th,
 td {
-    padding: 0.3rem 0.5rem;
-    text-align: center;
+  padding: 0.8rem 1.2rem;
+  text-align: center;
+  font-size: 1.1rem;
+  transition: background 0.2s;
 }
 
-table th:first-child {
-    border-radius: 10px 0 0 10px;
-}
-
-table th:last-child {
-    border-radius: 0 10px 10px 0;
+th {
+  background-color: #5076ff;
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .tableHead>tr {
-    background-color: #5076ff;
-    color: white;
+  border-radius: 16px 16px 0 0;
 }
 
 .evenRow {
-    background-color: #b3c4ff;
-    border-radius: 10px;
+  background-color: #eaf0ff;
+}
+
+tbody tr:hover {
+  background-color: #d6e4ff;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+table th:first-child {
+  border-radius: 16px 0 0 0;
+}
+
+table th:last-child {
+  border-radius: 0 16px 0 0;
 }

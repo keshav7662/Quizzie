@@ -1,34 +1,35 @@
 import React from 'react';
 import styles from './sidebar.module.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
-const Sidebar = ({ selectedButton, handleSidebarButtonClick, setShowCreateQuiz, setShowQuizwiseAnalysisPage }) => {
+const Sidebar = () => {
+  const navMenu = [
+    { id: 1, name: 'Dashboard', path: '/dashboard' },
+    { id: 2, name: 'Analytics', path: '/analytics' },
+    { id: 3, name: 'Create Quiz', path: '/create' },
+  ];
 
-  const buttonNames = ['Dashboard', 'Analytics'];
   const navigate = useNavigate();
+
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate('/register');
+    localStorage.removeItem('token');
+    navigate('/login');
   };
 
-  const getButtonClass = (buttonName) => (
-    selectedButton === buttonName ? styles.selectedButton : ''
-  );
 
   return (
-    <div className={styles.sidebar} >
-      <h1 className={styles.sidebarTitle}>QUEEZIE</h1>
+    <div className={styles.sidebar}>
+      <h1 className={styles.sidebarTitle}>QUIZZIE</h1>
       <div className={styles.navigateBtn}>
-        {buttonNames.map((buttonName) => (
-          <button
-            key={buttonName}
-            className={getButtonClass(buttonName)}
-            onClick={() => (handleSidebarButtonClick(buttonName), setShowQuizwiseAnalysisPage(false))}
+        {navMenu.map((menu) => (
+          <NavLink
+            to={menu.path}
+            key={menu.id}
+            className={({ isActive }) => (isActive ? styles.selectedButton : "")}
           >
-            {buttonName}
-          </button>
+            {menu.name}
+          </NavLink>
         ))}
-        <button className={getButtonClass('Create Quiz')} onClick={() => { setShowCreateQuiz(true) }}>Create Quiz</button>
       </div>
       <button className={styles.logoutBtn} onClick={handleLogout}>
         LOGOUT

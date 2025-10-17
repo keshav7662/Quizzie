@@ -1,26 +1,30 @@
 const mongoose = require('mongoose');
 
+const optionSchema = mongoose.Schema({
+    text: { type: String },
+    image: { type: String },
+    isCorrect: { type: Boolean, default: false }
+}, { _id: false });
+
 const questionSchema = mongoose.Schema({
-    title: {
+    questionTitle: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     optionType: {
         type: String,
-        enum: ['Text', 'Image URL', 'Text & Image URL'],
+        enum: ['text', 'image', 'text-image'],
         required: true
     },
-    option: {
-        type: [{}],
-        required: true
-    },
-    answer: {
-        type: String
+    options: {
+        type: [optionSchema],
+        validate: [arr => arr.length >= 2 && arr.length <= 4, 'Options must be between 2 and 4']
     },
     timer: {
         type: String,
-        enum: ['OFF', '5', '10'],
-        required: true
+        enum: ['off', '5sec', '10sec'],
+        default: 'off'
     },
     attempts: {
         type: Number,
