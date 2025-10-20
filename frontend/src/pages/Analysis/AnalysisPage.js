@@ -4,6 +4,7 @@ import styles from "./analysisPage.module.css";
 import { deleteQuizApi, getAllQuizApi } from "../../services/QuizService";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import ErrorState from "../../components/ErrorState/ErrorState";
 
 const AnalysisPage = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -48,6 +49,7 @@ const AnalysisPage = () => {
 
 
   if (error) {
+    localStorage.removeItem('token');
     const isAuthError =
       error?.toLowerCase().includes("unauthorized") ||
       error?.toLowerCase().includes("token") ||
@@ -55,21 +57,27 @@ const AnalysisPage = () => {
       error?.toLowerCase().includes("login");
 
     return (
-      <div className={styles.stateWrapper}>
-        <p className={styles.errorText}>⚠️ {error}</p>
-        {isAuthError ? (
-          <button
-            className={styles.retryBtn}
-            onClick={() => navigate("/login")}
-          >
-            Go to Login
-          </button>
-        ) : (
-          <button className={styles.retryBtn} onClick={fetchQuizzes}>
-            Retry
-          </button>
-        )}
-      </div>
+      // <div className={styles.stateWrapper}>
+      //   <p className={styles.errorText}>⚠️ {error}</p>
+      //   {isAuthError ? (
+      //     <button
+      //       className={styles.retryBtn}
+      //       onClick={() => navigate("/login")}
+      //     >
+      //       Go to Login
+      //     </button>
+      //   ) : (
+      //     <button className={styles.retryBtn} onClick={fetchQuizzes}>
+      //       Retry
+      //     </button>
+      //   )}
+      // </div>
+      <ErrorState
+        message={error}
+        showLoginButton={isAuthError}
+        onLogin={() => navigate("/login")}
+        onRetry={fetchQuizzes}
+      />
     );
   }
 
